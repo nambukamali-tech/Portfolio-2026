@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: portfolio_postgres
+    restart: always
+    environment:
+      POSTGRES_DB: nk_portfolio_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespassword
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d nk_portfolio_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: portfolio_api
+    restart: always
+    ports:
+      - "5000:5000"
+    environment:
+      - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=nk_portfolio_db;Username=postgres;Password=postgrespassword
+      - Jwt__SecretKey=DEV_LOCAL_SECRET_KEY_FOR_DOCKER_COMPOSE_TESTING_ONLY_32CHARS!
+      - Jwt__Issuer=PortfolioApi
+      - Jwt__Audience=PortfolioClient
+      - ADMIN_INITIAL_EMAIL=admin@nambukamali.dev
+      - ADMIN_INITIAL_PASSWORD=AdminPass123!
+      - AllowedOrigins=http://localhost:5173,http://localhost:3000,http://localhost:8080
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: portfolio_frontend
+    restart: always
+    ports:
+      - "8080:80"
+    depends_on:
+      - api
+
+volumes:
+  postgres_data:

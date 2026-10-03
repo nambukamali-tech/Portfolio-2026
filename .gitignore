@@ -1,0 +1,21 @@
+# .NET Build Output
+bin/
+obj/
+*.user
+*.suo
+portfolio.db
+portfolio.db-shm
+portfolio.db-wal
+
+# Node & Frontend
+node_modules/
+dist/
+.env
+.env.local
+*.log
+
+# IDE & OS
+.vscode/
+.idea/
+Thumbs.db
+Desktop.ini
