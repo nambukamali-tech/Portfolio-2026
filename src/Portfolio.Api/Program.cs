@@ -173,6 +173,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapFallbackToFile("index.html");
 
 // 7. Initialize & Seed Database
 using (var scope = app.Services.CreateScope())

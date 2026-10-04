@@ -13,27 +13,43 @@ namespace Portfolio.Infrastructure.Persistence
     {
         public static async Task SeedAsync(ApplicationDbContext context, IPasswordHasher passwordHasher, IConfiguration configuration)
         {
-            // 1. Seed Profile
-            if (!await context.Profiles.AnyAsync())
+            // Reset existing data if needed to populate clean resume details
+            if (await context.Profiles.AnyAsync())
+            {
+                var existingProfile = await context.Profiles.FirstAsync();
+                existingProfile.FullName = "Nambu Kamali N";
+                existingProfile.Headline = "Full Stack .NET Developer | ASP.NET Core & React Specialist";
+                existingProfile.Summary = "University 1st Rank Holder (Alagappa University, 2025) and Full Stack .NET Developer with hands-on experience across two software engineering roles. Proficient in ASP.NET Core, C#, Entity Framework Core, SQL Server, MySQL, Postgres, and React.js. Demonstrated ability to build secure backend REST APIs, implement role-based access control (RBAC), microservices with RabbitMQ, and deliver optimized database-driven applications with a strong foundation in clean architecture.";
+                existingProfile.Location = "Coimbatore, Tamil Nadu, India";
+                existingProfile.ProfileImageUrl = "/images/profile.jpg";
+                existingProfile.ResumeUrl = "/resume.pdf";
+                existingProfile.Email = "nambukamali@gmail.com";
+                existingProfile.LinkedInUrl = "https://linkedin.com/in/nambu-kamali-531233265/";
+                existingProfile.GitHubUrl = "https://github.com/nambukamali-tech";
+                existingProfile.AvailabilityStatus = "Open to opportunities";
+                existingProfile.YearsExperience = 1;
+                existingProfile.ProjectsCompleted = 6;
+            }
+            else
             {
                 context.Profiles.Add(new Profile
                 {
-                    FullName = "Nambu Kamali",
-                    Headline = "Junior Software Developer | .NET & React Specialist",
-                    Summary = "Driven Junior Full-Stack Developer with expertise in building resilient RESTful APIs using C# and ASP.NET Core, combined with responsive UI components built in React. Highly passionate about Clean Architecture, modern backend design, relational databases (PostgreSQL), and writing maintainable code.",
-                    Location = "India",
+                    FullName = "Nambu Kamali N",
+                    Headline = "Full Stack .NET Developer | ASP.NET Core & React Specialist",
+                    Summary = "University 1st Rank Holder (Alagappa University, 2025) and Full Stack .NET Developer with hands-on experience across two software engineering roles. Proficient in ASP.NET Core, C#, Entity Framework Core, SQL Server, MySQL, Postgres, and React.js. Demonstrated ability to build secure backend REST APIs, implement role-based access control (RBAC), microservices with RabbitMQ, and deliver optimized database-driven applications with a strong foundation in clean architecture.",
+                    Location = "Coimbatore, Tamil Nadu, India",
                     ProfileImageUrl = "/images/profile.jpg",
                     ResumeUrl = "/resume.pdf",
-                    Email = "nambukamali@example.com",
-                    LinkedInUrl = "https://linkedin.com/in/nambukamali",
-                    GitHubUrl = "https://github.com/nambukamali",
+                    Email = "nambukamali@gmail.com",
+                    LinkedInUrl = "https://linkedin.com/in/nambu-kamali-531233265/",
+                    GitHubUrl = "https://github.com/nambukamali-tech",
                     AvailabilityStatus = "Open to opportunities",
                     YearsExperience = 1,
-                    ProjectsCompleted = 8
+                    ProjectsCompleted = 6
                 });
             }
 
-            // 2. Seed Admin User (Securely from Environment Variables ONLY)
+            // 2. Seed Admin User
             if (!await context.AdminUsers.AnyAsync())
             {
                 var initialEmail = configuration["ADMIN_INITIAL_EMAIL"] ?? configuration["Admin:InitialEmail"];
@@ -49,212 +65,231 @@ namespace Portfolio.Infrastructure.Persistence
                         IsActive = true,
                         CreatedAt = DateTime.UtcNow
                     });
-                    Console.WriteLine($"[SECURITY]: Initial admin user '{initialEmail}' created from environment configuration.");
-                }
-                else
-                {
-                    Console.WriteLine("[SECURITY NOTE]: ADMIN_INITIAL_PASSWORD environment variable not set. Skipping default admin user creation.");
                 }
             }
 
-            // 3. Seed Skills
-            if (!await context.Skills.AnyAsync())
+            // 3. Seed Skills from Resume
+            context.Skills.RemoveRange(await context.Skills.ToListAsync());
+            var skills = new List<Skill>
             {
-                var skills = new List<Skill>
-                {
-                    // Frontend
-                    new Skill { Name = "React", Category = "Frontend", Icon = "Atom", DisplayOrder = 1, IsVisible = true },
-                    new Skill { Name = "TypeScript", Category = "Frontend", Icon = "FileCode2", DisplayOrder = 2, IsVisible = true },
-                    new Skill { Name = "JavaScript (ES6+)", Category = "Frontend", Icon = "Code", DisplayOrder = 3, IsVisible = true },
-                    new Skill { Name = "Tailwind CSS", Category = "Frontend", Icon = "Palette", DisplayOrder = 4, IsVisible = true },
-                    new Skill { Name = "HTML5 / CSS3", Category = "Frontend", Icon = "Layout", DisplayOrder = 5, IsVisible = true },
+                // Languages
+                new Skill { Name = "C#", Category = "Backend", Icon = "Terminal", DisplayOrder = 1, IsVisible = true },
+                new Skill { Name = "JavaScript", Category = "Frontend", Icon = "Code", DisplayOrder = 2, IsVisible = true },
+                new Skill { Name = "HTML5", Category = "Frontend", Icon = "Layout", DisplayOrder = 3, IsVisible = true },
+                new Skill { Name = "CSS3", Category = "Frontend", Icon = "Palette", DisplayOrder = 4, IsVisible = true },
 
-                    // Backend
-                    new Skill { Name = "C#", Category = "Backend", Icon = "Terminal", DisplayOrder = 6, IsVisible = true },
-                    new Skill { Name = "ASP.NET Core Web API", Category = "Backend", Icon = "Server", DisplayOrder = 7, IsVisible = true },
-                    new Skill { Name = "Entity Framework Core", Category = "Backend", Icon = "Database", DisplayOrder = 8, IsVisible = true },
-                    new Skill { Name = "LINQ", Category = "Backend", Icon = "Filter", DisplayOrder = 9, IsVisible = true },
-                    new Skill { Name = "JWT Authentication", Category = "Backend", Icon = "KeyRound", DisplayOrder = 10, IsVisible = true },
+                // Frameworks / Libraries
+                new Skill { Name = "ASP.NET Core", Category = "Backend", Icon = "Server", DisplayOrder = 5, IsVisible = true },
+                new Skill { Name = "ASP.NET Core Web API", Category = "Backend", Icon = "Network", DisplayOrder = 6, IsVisible = true },
+                new Skill { Name = "Entity Framework Core", Category = "Backend", Icon = "Database", DisplayOrder = 7, IsVisible = true },
+                new Skill { Name = "ASP.NET MVC", Category = "Backend", Icon = "Layers", DisplayOrder = 8, IsVisible = true },
+                new Skill { Name = "LINQ", Category = "Backend", Icon = "Filter", DisplayOrder = 9, IsVisible = true },
+                new Skill { Name = "React.js", Category = "Frontend", Icon = "Atom", DisplayOrder = 10, IsVisible = true },
 
-                    // Database
-                    new Skill { Name = "PostgreSQL", Category = "Database", Icon = "DatabaseBackup", DisplayOrder = 11, IsVisible = true },
-                    new Skill { Name = "SQL & Schema Design", Category = "Database", Icon = "Table", DisplayOrder = 12, IsVisible = true },
+                // Databases
+                new Skill { Name = "SQL Server", Category = "Database", Icon = "Database", DisplayOrder = 11, IsVisible = true },
+                new Skill { Name = "MySQL", Category = "Database", Icon = "Table", DisplayOrder = 12, IsVisible = true },
+                new Skill { Name = "PostgreSQL", Category = "Database", Icon = "DatabaseBackup", DisplayOrder = 13, IsVisible = true },
 
-                    // Tools & Platforms
-                    new Skill { Name = "Git & GitHub", Category = "Tools & Platforms", Icon = "GitBranch", DisplayOrder = 13, IsVisible = true },
-                    new Skill { Name = "Docker", Category = "Tools & Platforms", Icon = "Box", DisplayOrder = 14, IsVisible = true },
-                    new Skill { Name = "Swagger / OpenAPI", Category = "Tools & Platforms", Icon = "FileText", DisplayOrder = 15, IsVisible = true },
-                    new Skill { Name = "Visual Studio / VS Code", Category = "Tools & Platforms", Icon = "Laptop", DisplayOrder = 16, IsVisible = true },
+                // Tools & Architecture
+                new Skill { Name = "Visual Studio / VS Code", Category = "Tools & Platforms", Icon = "Laptop", DisplayOrder = 14, IsVisible = true },
+                new Skill { Name = "Git & GitHub", Category = "Tools & Platforms", Icon = "GitBranch", DisplayOrder = 15, IsVisible = true },
+                new Skill { Name = "RabbitMQ & Microservices", Category = "Architecture & Concepts", Icon = "Cpu", DisplayOrder = 16, IsVisible = true },
+                new Skill { Name = "Clean Architecture & RBAC", Category = "Architecture & Concepts", Icon = "ShieldCheck", DisplayOrder = 17, IsVisible = true },
+                new Skill { Name = "AI Tools", Category = "Tools & Platforms", Icon = "Sparkles", DisplayOrder = 18, IsVisible = true }
+            };
+            context.Skills.AddRange(skills);
 
-                    // Architecture & Concepts
-                    new Skill { Name = "Clean Architecture", Category = "Architecture & Concepts", Icon = "Cpu", DisplayOrder = 17, IsVisible = true },
-                    new Skill { Name = "SOLID Principles", Category = "Architecture & Concepts", Icon = "CheckCircle2", DisplayOrder = 18, IsVisible = true },
-                    new Skill { Name = "RESTful API Design", Category = "Architecture & Concepts", Icon = "Network", DisplayOrder = 19, IsVisible = true },
-                    new Skill { Name = "API Security & Rate Limiting", Category = "Architecture & Concepts", Icon = "ShieldCheck", DisplayOrder = 20, IsVisible = true }
-                };
-
-                context.Skills.AddRange(skills);
-            }
-
-            // 4. Seed Projects
-            if (!await context.Projects.AnyAsync())
+            // 4. Seed Projects from Resume
+            context.Projects.RemoveRange(await context.Projects.ToListAsync());
+            var projects = new List<Project>
             {
-                var projects = new List<Project>
+                new Project
                 {
-                    new Project
-                    {
-                        Title = "Field Force Management (FFM)",
-                        Slug = "field-force-management",
-                        ShortDescription = "An enterprise mobile and web platform for tracking field agent operations, job allocations, real-time status reporting, and location tracking.",
-                        FullDescription = "Field Force Management (FFM) empowers organizations to manage mobile teams effectively. Built with ASP.NET Core Clean Architecture on the backend and React on the frontend, featuring real-time synchronization, role-based access control, and analytical dashboards.",
-                        ThumbnailUrl = "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80",
-                        Category = "Full-Stack",
-                        Technologies = "C#, ASP.NET Core, React, TypeScript, PostgreSQL, Entity Framework Core, Tailwind CSS",
-                        GitHubUrl = "https://github.com/nambukamali/ffm-system",
-                        LiveDemoUrl = "https://ffm-demo.example.com",
-                        ProjectStatus = "Completed",
-                        IsFeatured = true,
-                        IsPublished = true,
-                        DisplayOrder = 1,
-                        ProblemStatement = "Field service operations struggled with delayed manual status updates, untracked locations, and communication bottlenecks between central managers and field agents.",
-                        SolutionOverview = "Developed a central management portal with REST APIs for real-time task updates, automated agent routing, and instant incident logging.",
-                        ArchitectureNotes = "Designed following Clean Architecture principles separating Domain entities, Application use cases, EF Core PostgreSQL infrastructure, and JWT authenticated API endpoints."
-                    },
-                    new Project
-                    {
-                        Title = "Full-Stack Developer Portfolio Engine",
-                        Slug = "developer-portfolio-engine",
-                        ShortDescription = "A futuristic midnight-blue developer portfolio with dynamic REST API integrations, animated tech orbit visualizer, and a full admin management portal.",
-                        FullDescription = "Custom portfolio web application built with React + Vite frontend and ASP.NET Core Web API backend. Features dynamic skill filtering, project showcases, contact message handling with rate limiting, and an admin dashboard for live content editing.",
-                        ThumbnailUrl = "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80",
-                        Category = "Full-Stack",
-                        Technologies = "C#, ASP.NET Core, React, TypeScript, PostgreSQL, Framer Motion, Tailwind CSS, JWT",
-                        GitHubUrl = "https://github.com/nambukamali/portfolio-engine",
-                        LiveDemoUrl = "https://nambukamali.dev",
-                        ProjectStatus = "Completed",
-                        IsFeatured = true,
-                        IsPublished = true,
-                        DisplayOrder = 2,
-                        ProblemStatement = "Static developer portfolios lack interactivity, real API integration, and require code edits for updating skills, projects, or contact settings.",
-                        SolutionOverview = "Built a fully dynamic full-stack system with EF Core PostgreSQL persistence, JWT-secured admin control panel, client-side input validation, and fluid UI animations.",
-                        ArchitectureNotes = "Modular Clean Architecture solution utilizing DTO mapping, FluentValidation, BCrypt authentication, rate limiting, and responsive design system."
-                    },
-                    new Project
-                    {
-                        Title = "Task & Workflow API Service",
-                        Slug = "task-workflow-api",
-                        ShortDescription = "High-performance REST API for enterprise task distribution, priority queuing, JWT authentication, and structured error reporting.",
-                        FullDescription = "Robust backend Web API service designed to support team task allocation, status audit trails, priority queue management, and automated email notifications.",
-                        ThumbnailUrl = "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=800&q=80",
-                        Category = "Backend",
-                        Technologies = "C#, ASP.NET Core, PostgreSQL, Swagger, Docker, Serilog",
-                        GitHubUrl = "https://github.com/nambukamali/task-workflow-api",
-                        LiveDemoUrl = "https://api-demo.example.com/swagger",
-                        ProjectStatus = "Completed",
-                        IsFeatured = true,
-                        IsPublished = true,
-                        DisplayOrder = 3,
-                        ProblemStatement = "Legacy workflow microservice suffered from missing request validations and lack of structured logging during peak traffic periods.",
-                        SolutionOverview = "Implemented standardized API responses, database indexes, centralized error middleware, and rate-limited endpoints.",
-                        ArchitectureNotes = "Entity Framework Core with PostgreSQL migrations, Repository pattern abstractions, and Swagger OpenAPI documentation."
-                    }
-                };
+                    Title = "Ackcio - IoT Monitoring System",
+                    Slug = "ackcio-iot-monitoring-system",
+                    ShortDescription = "Real-time IoT-based structural and asset monitoring platform handling continuous sensor data streams.",
+                    FullDescription = "Building secure ASP.NET Core Web APIs to receive, process, and store continuous data streams from IoT devices. Developing microservices using microservice architecture and RabbitMQ for asynchronous communication and message processing. Designing and optimizing database schemas to handle large volumes of time-series sensor data with efficient querying and role-based access control (RBAC).",
+                    ThumbnailUrl = "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80",
+                    Category = "Backend",
+                    Technologies = "C#, ASP.NET Core Web API, EF Core, MySQL, RabbitMQ, Microservices, React.js",
+                    GitHubUrl = "https://github.com/nambukamali-tech/ackcio-iot-monitoring",
+                    LiveDemoUrl = "https://github.com/nambukamali-tech",
+                    ProjectStatus = "In Progress",
+                    IsFeatured = true,
+                    IsPublished = true,
+                    DisplayOrder = 1,
+                    ProblemStatement = "Handling high-volume continuous time-series data streams from IoT structural sensors requires low latency, asynchronous processing, and robust database schema optimization.",
+                    SolutionOverview = "Implemented ASP.NET Core REST APIs with RabbitMQ message queues for asynchronous ingestion and optimized MySQL schema using EF Core Code-First migrations.",
+                    ArchitectureNotes = "Microservices architecture utilizing RabbitMQ for decoupled message processing, RBAC for secure API endpoints, and clean code principles."
+                },
+                new Project
+                {
+                    Title = "Student Portal Web Application",
+                    Slug = "student-portal-web-app",
+                    ShortDescription = "Full-stack web application following Clean Architecture for managing student profiles, scholarships, papers, and attendance.",
+                    FullDescription = "Built a full-stack web application using ASP.NET Core MVC, Entity Framework Core, and MySQL following clean architecture principles. Implemented role-based authentication (Admin & Staff) and developed CRUD modules for students, scholarships, research papers, and attendance records.",
+                    ThumbnailUrl = "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80",
+                    Category = "Full-Stack",
+                    Technologies = "C#, ASP.NET Core MVC, EF Core, MySQL, Bootstrap, LINQ",
+                    GitHubUrl = "https://github.com/nambukamali-tech/student-portal",
+                    LiveDemoUrl = "https://github.com/nambukamali-tech",
+                    ProjectStatus = "Completed",
+                    IsFeatured = true,
+                    IsPublished = true,
+                    DisplayOrder = 2,
+                    ProblemStatement = "Educational institutions required a unified portal to manage multi-role administrative data (scholarships, attendance, papers) with strict access control.",
+                    SolutionOverview = "Developed role-based authentication (Admin & Staff) with clean layer separation, dependency injection, and EF Core Code-First migrations.",
+                    ArchitectureNotes = "Clean Architecture in ASP.NET Core MVC with custom middleware for request processing and dependency injection for decoupled services."
+                },
+                new Project
+                {
+                    Title = "Online Ticket Booking Web Application",
+                    Slug = "online-ticket-booking-app",
+                    ShortDescription = "Full-stack ticket booking platform built with React.js frontend and ASP.NET Core MVC backend.",
+                    FullDescription = "Built a full-stack web application using React.js frontend and ASP.NET Core MVC backend with clean client-server architecture. Implemented secure login/signup system with role-based access for Admin and Users. Developed ticket booking features with real-time availability and an Admin Dashboard to monitor and manage daily bookings.",
+                    ThumbnailUrl = "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=800&q=80",
+                    Category = "Full-Stack",
+                    Technologies = "React.js, ASP.NET Core, C#, Web API, SQL Server, JavaScript",
+                    GitHubUrl = "https://github.com/nambukamali-tech/online-ticket-booking",
+                    LiveDemoUrl = "https://github.com/nambukamali-tech",
+                    ProjectStatus = "Completed",
+                    IsFeatured = true,
+                    IsPublished = true,
+                    DisplayOrder = 3,
+                    ProblemStatement = "Users needed a responsive interface to check ticket availability and complete bookings while administrators needed a live dashboard.",
+                    SolutionOverview = "Decoupled React.js frontend communicating with ASP.NET Core backend REST endpoints, featuring live seat availability updates and RBAC security.",
+                    ArchitectureNotes = "Client-server architecture separating React SPA state management from ASP.NET Core business logic and SQL Server persistence."
+                },
+                new Project
+                {
+                    Title = "Rural Guider - College & Career Guidance Web App",
+                    Slug = "rural-guider-career-app",
+                    ShortDescription = "Career guidance platform helping rural students discover colleges and career opportunities.",
+                    FullDescription = "Built a full-stack web app using ASP.NET Core MVC, Entity Framework Core, and MySQL to help rural students find colleges and career paths. Implemented role-based authentication for Admin, Student, and College roles with secure login and controlled access. Developed CRUD operations for college listings, course details, and student profiles via role-based dashboards.",
+                    ThumbnailUrl = "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80",
+                    Category = "Full-Stack",
+                    Technologies = "ASP.NET Core MVC, EF Core, MySQL, Bootstrap, C#",
+                    GitHubUrl = "https://github.com/nambukamali-tech/rural-guider",
+                    LiveDemoUrl = "https://github.com/nambukamali-tech",
+                    ProjectStatus = "Completed",
+                    IsFeatured = true,
+                    IsPublished = true,
+                    DisplayOrder = 4,
+                    ProblemStatement = "Rural students lacked structured digital guidance for exploring higher education colleges, degree programs, and career pathways.",
+                    SolutionOverview = "Designed an intuitive, accessible Bootstrap interface tailored for low-bandwidth users, backed by ASP.NET Core MVC and MySQL.",
+                    ArchitectureNotes = "Multi-role RBAC architecture (Admin, Student, College) with EF Core Code-First migrations and optimized database queries."
+                }
+            };
+            context.Projects.AddRange(projects);
 
-                context.Projects.AddRange(projects);
-            }
-
-            // 5. Seed Experience
-            if (!await context.Experiences.AnyAsync())
+            // 5. Seed Experience from Resume
+            context.Experiences.RemoveRange(await context.Experiences.ToListAsync());
+            var experiences = new List<Experience>
             {
-                context.Experiences.Add(new Experience
+                new Experience
                 {
-                    JobTitle = "Junior Full-Stack Developer",
-                    CompanyName = "Software Solutions Ltd",
+                    JobTitle = "Junior Software Developer",
+                    CompanyName = "PrimeMover Solutions",
                     EmploymentType = "Full-time",
-                    Location = "India",
-                    StartDate = DateTime.UtcNow.AddMonths(-10),
+                    Location = "Coimbatore, India",
+                    StartDate = new DateTime(2026, 3, 1),
                     IsCurrent = true,
-                    Description = "Contributed to building full-stack web applications using ASP.NET Core Web API and React. Developed secure REST endpoints, optimized PostgreSQL database queries, built reusable frontend components, and implemented JWT security.",
-                    Technologies = "C#, ASP.NET Core, React, TypeScript, PostgreSQL, EF Core, Git",
+                    Description = "Promoted from Backend Developer Intern (Dec 2025 - Feb 2026) to Junior Software Developer. Currently developing backend APIs and managing the database for Ackcio, a real-time IoT-based monitoring system. Building and maintaining RESTful APIs using ASP.NET Core MVC and C# to handle real-time data ingestion from IoT devices. Designing and optimizing MySQL database schema using EF Core (Code-First Migrations). Implementing core business logic, role-based authentication (RBAC), and collaborating following clean architecture principles.",
+                    Technologies = "C#, ASP.NET Core, EF Core, MySQL, RabbitMQ, Microservices, Git",
                     DisplayOrder = 1
-                });
-            }
-
-            // 6. Seed Certifications
-            if (!await context.Certifications.AnyAsync())
-            {
-                context.Certifications.Add(new Certification
+                },
+                new Experience
                 {
-                    Name = "Foundational C# & ASP.NET Core Web Development",
-                    Issuer = "Microsoft & FreeCodeCamp / Online Learning",
-                    IssueDate = DateTime.UtcNow.AddMonths(-6),
-                    CredentialId = "MSFT-CS-2026",
-                    VerificationUrl = "https://learn.microsoft.com",
+                    JobTitle = "Web Developer Intern",
+                    CompanyName = "Eminent Technology Solution",
+                    EmploymentType = "Internship",
+                    Location = "Madurai, India",
+                    StartDate = new DateTime(2024, 5, 1),
+                    EndDate = new DateTime(2024, 6, 30),
+                    IsCurrent = false,
+                    Description = "Developed a College & Career Guidance Web Application using ASP.NET Core MVC and MySQL for rural students. Implemented role-based authentication for Admin, Student, and College roles with secure access control. Managed institutions, courses, and content data using EF Core Code-First Migrations and designed a simple, responsive Bootstrap UI for users with limited digital exposure.",
+                    Technologies = "ASP.NET Core MVC, EF Core, MySQL, C#, Bootstrap",
+                    DisplayOrder = 2
+                }
+            };
+            context.Experiences.AddRange(experiences);
+
+            // 6. Seed Certifications & Achievements from Resume
+            context.Certifications.RemoveRange(await context.Certifications.ToListAsync());
+            var certs = new List<Certification>
+            {
+                new Certification
+                {
+                    Name = "Full Stack .NET Developer Course",
+                    Issuer = "Appex Technologies, Coimbatore",
+                    IssueDate = new DateTime(2025, 1, 1),
+                    CredentialId = "APPEX-NET-2025",
+                    VerificationUrl = "https://github.com/nambukamali-tech",
                     CertificateUrl = "/certificates/csharp-cert.pdf",
-                    Description = "Comprehensive verification of core C# syntax, object-oriented principles, LINQ, and REST API development with ASP.NET Core.",
+                    Description = "Completed 3-months hands-on training covering ASP.NET MVC, Entity Framework, SQL Server, React, and JavaScript.",
                     DisplayOrder = 1
-                });
-            }
-
-            // 7. Seed Education
-            if (!await context.Educations.AnyAsync())
-            {
-                context.Educations.Add(new Education
+                },
+                new Certification
                 {
-                    Qualification = "Bachelor of Engineering / Technology in Computer Science",
-                    Institution = "University Institute of Technology",
-                    StartDate = new DateTime(2021, 8, 1),
+                    Name = "University 1st Rank Holder (Gold Medalist)",
+                    Issuer = "Alagappa University",
+                    IssueDate = new DateTime(2025, 5, 1),
+                    CredentialId = "ALAGAPPA-RANK-1",
+                    VerificationUrl = "https://github.com/nambukamali-tech",
+                    CertificateUrl = "/certificates/csharp-cert.pdf",
+                    Description = "Awarded University 1st Rank for outstanding academic performance in Master of Science in Computer Science (CGPA: 8.93).",
+                    DisplayOrder = 2
+                },
+                new Certification
+                {
+                    Name = "Best Outgoing Student Awardee",
+                    Issuer = "Government Arts College for Women, Ramanathapuram",
+                    IssueDate = new DateTime(2025, 4, 1),
+                    CredentialId = "GACW-BEST-OUTGOING-2025",
+                    VerificationUrl = "https://github.com/nambukamali-tech",
+                    CertificateUrl = "/certificates/csharp-cert.pdf",
+                    Description = "Honored with the Best Outgoing Student Award for academic excellence and leadership in Computer Science.",
+                    DisplayOrder = 3
+                },
+                new Certification
+                {
+                    Name = "University 5th Rank Holder",
+                    Issuer = "Alagappa University",
+                    IssueDate = new DateTime(2023, 5, 1),
+                    CredentialId = "ALAGAPPA-RANK-5",
+                    VerificationUrl = "https://github.com/nambukamali-tech",
+                    CertificateUrl = "/certificates/csharp-cert.pdf",
+                    Description = "Ranked 5th across the entire university in Bachelor of Science in Computer Science (CGPA: 8.7).",
+                    DisplayOrder = 4
+                }
+            };
+            context.Certifications.AddRange(certs);
+
+            // 7. Seed Education from Resume
+            context.Educations.RemoveRange(await context.Educations.ToListAsync());
+            var educationList = new List<Education>
+            {
+                new Education
+                {
+                    Qualification = "Master of Science (Computer Science) - CGPA: 8.93",
+                    Institution = "Government Arts College for Women, Ramanathapuram",
+                    StartDate = new DateTime(2023, 8, 1),
                     EndDate = new DateTime(2025, 5, 1),
-                    Description = "Focused on Data Structures, Algorithms, Database Management Systems, Software Engineering Principles, and Web Development.",
+                    Description = "University 1st Rank Holder (Gold Medalist). Specialized in Advanced Database Systems, Software Architecture, Web Application Development, and Data Science.",
                     DisplayOrder = 1
-                });
-            }
-
-            // 8. Seed Services
-            if (!await context.Services.AnyAsync())
-            {
-                var services = new List<ServiceItem>
+                },
+                new Education
                 {
-                    new ServiceItem
-                    {
-                        Title = "ASP.NET Core Web API Development",
-                        Description = "Building robust, scalable, and secure RESTful Web APIs using C#, ASP.NET Core, Clean Architecture, and Entity Framework Core.",
-                        Icon = "Server",
-                        Technologies = "C#, ASP.NET Core, Swagger, JWT, EF Core",
-                        IsActive = true,
-                        DisplayOrder = 1
-                    },
-                    new ServiceItem
-                    {
-                        Title = "React & TypeScript Frontend UI",
-                        Description = "Crafting high-performance, modern, dynamic user interfaces using React, TypeScript, Tailwind CSS, and fluid animations.",
-                        Icon = "Layout",
-                        Technologies = "React, TypeScript, Tailwind CSS, Framer Motion",
-                        IsActive = true,
-                        DisplayOrder = 2
-                    },
-                    new ServiceItem
-                    {
-                        Title = "PostgreSQL Database Integration",
-                        Description = "Designing normalized relational database schemas, creating EF Core migrations, writing efficient LINQ queries, and indexing for optimal query performance.",
-                        Icon = "Database",
-                        Technologies = "PostgreSQL, SQL, LINQ, EF Core",
-                        IsActive = true,
-                        DisplayOrder = 3
-                    },
-                    new ServiceItem
-                    {
-                        Title = "Full-Stack Web Application Engineering",
-                        Description = "End-to-end web application development connecting frontend React interfaces to backend C# APIs with authentication, state management, and deployment readiness.",
-                        Icon = "Layers",
-                        Technologies = "React, C#, ASP.NET Core, PostgreSQL, Docker",
-                        IsActive = true,
-                        DisplayOrder = 4
-                    }
-                };
-
-                context.Services.AddRange(services);
-            }
+                    Qualification = "Bachelor of Science (Computer Science) - CGPA: 8.7",
+                    Institution = "Caussanel College of Arts and Science, Ramanathapuram",
+                    StartDate = new DateTime(2020, 8, 1),
+                    EndDate = new DateTime(2023, 5, 1),
+                    Description = "University 5th Rank Holder. Core focus on Object-Oriented Programming (C#), Data Structures & Algorithms, Relational Database Management Systems, and Web Engineering.",
+                    DisplayOrder = 2
+                }
+            };
+            context.Educations.AddRange(educationList);
 
             await context.SaveChangesAsync();
         }

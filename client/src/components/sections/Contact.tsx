@@ -39,10 +39,30 @@ export const Contact: React.FC<ContactProps> = ({ profile }) => {
     try {
       setLoading(true);
       const res = await portfolioApi.submitContact(formData);
-      setStatus({ type: 'success', message: res.message || 'Message sent successfully! Nambu Kamali will get back to you.' });
+
+      // Also forward email directly to nambukamali@gmail.com via Web3Forms
+      try {
+        await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({
+            access_key: '5817c182-3d84-4847-b715-c0d1645e3ec3', // Web3Forms public API service
+            name: formData.fullName,
+            email: formData.email,
+            subject: `[Portfolio Inquiry] ${formData.subject}`,
+            message: `Sender: ${formData.fullName} (${formData.email})\nSubject: ${formData.subject}\n\nMessage:\n${formData.message}`,
+            from_name: formData.fullName,
+            replyto: formData.email,
+          })
+        });
+      } catch (emailErr) {
+        console.warn('Direct email dispatch note:', emailErr);
+      }
+
+      setStatus({ type: 'success', message: res.message || 'Message sent! Nambu Kamali will receive your email at nambukamali@gmail.com.' });
       setFormData({ fullName: '', email: '', subject: '', message: '' });
     } catch (err: any) {
-      const errMsg = err.response?.data?.message || 'Failed to submit message. Please try again or email directly.';
+      const errMsg = err.response?.data?.message || 'Failed to submit message. Please try emailing directly to nambukamali@gmail.com.';
       setStatus({ type: 'error', message: errMsg });
     } finally {
       setLoading(false);
