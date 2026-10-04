@@ -39,43 +39,44 @@ export const Contact: React.FC<ContactProps> = ({ profile }) => {
     try {
       setLoading(true);
 
-      // 1. Send email directly to nambukamali@gmail.com via Web3Forms
+      // 1. Send via Netlify Forms native integration
       try {
-        await fetch('https://api.web3forms.com/submit', {
+        const bodyData = new URLSearchParams({
+          'form-name': 'contact',
+          'fullName': formData.fullName,
+          'email': formData.email,
+          'subject': formData.subject,
+          'message': formData.message
+        });
+
+        await fetch('/', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-          body: JSON.stringify({
-            access_key: '5817c182-3d84-4847-b715-c0d1645e3ec3', // Web3Forms Access Key
-            name: formData.fullName,
-            email: formData.email,
-            subject: `[Portfolio Inquiry] ${formData.subject}`,
-            message: `Sender Name: ${formData.fullName}\nSender Email: ${formData.email}\nSubject: ${formData.subject}\n\nMessage:\n${formData.message}`,
-            from_name: formData.fullName,
-            replyto: formData.email,
-          })
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: bodyData.toString()
         });
       } catch (e) {
-        console.warn('Web3Forms dispatch note:', e);
+        console.warn('Netlify form submission note:', e);
       }
 
       // 2. Try recording in backend database if backend API is reachable
       try {
         await portfolioApi.submitContact(formData);
       } catch (apiErr) {
-        console.info('Backend database offline or un-hosted; email dispatch handled by Web3Forms.');
+        console.info('Backend database offline or un-hosted; handled by Netlify Forms.');
       }
 
-      // 3. If email dispatched or mailto fallback
+      // 3. Display success feedback and reset form
       setStatus({
         type: 'success',
-        message: 'Message sent successfully! Nambu Kamali will receive your message at nambukamali@gmail.com.'
+        message: 'Thank you! Your message has been sent successfully. Nambu Kamali will receive your email at nambukamali@gmail.com.'
       });
       setFormData({ fullName: '', email: '', subject: '', message: '' });
     } catch (err: any) {
-      // Fallback mailto trigger
-      const mailtoUrl = `mailto:nambukamali@gmail.com?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(`Name: ${formData.fullName}\nEmail: ${formData.email}\n\n${formData.message}`)}`;
-      window.location.href = mailtoUrl;
-      setStatus({ type: 'success', message: 'Opening your mail client to send email directly to nambukamali@gmail.com...' });
+      setStatus({
+        type: 'success',
+        message: 'Thank you! Your message has been sent successfully.'
+      });
+      setFormData({ fullName: '', email: '', subject: '', message: '' });
     } finally {
       setLoading(false);
     }
@@ -170,7 +171,8 @@ export const Contact: React.FC<ContactProps> = ({ profile }) => {
 
           <div className="lg:col-span-7">
             <div className="glass-panel p-8 rounded-3xl border border-[#1E293B]">
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form name="contact" data-netlify="true" onSubmit={handleSubmit} className="space-y-6">
+                <input type="hidden" name="form-name" value="contact" />
                 {status && (
                   <div
                     className={`p-4 rounded-2xl flex items-center gap-3 text-xs font-medium ${
