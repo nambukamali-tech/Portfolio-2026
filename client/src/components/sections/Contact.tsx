@@ -22,7 +22,7 @@ export const Contact: React.FC<ContactProps> = ({ profile }) => {
 
   const maxMessageLength = 1000;
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setStatus(null);
 
@@ -36,50 +36,30 @@ export const Contact: React.FC<ContactProps> = ({ profile }) => {
       return;
     }
 
+    setLoading(true);
+
+    const emailSubject = `[Portfolio Inquiry] ${formData.subject}`;
+    const emailBody = `Sender Name: ${formData.fullName}\nSender Email: ${formData.email}\nSubject: ${formData.subject}\n\nMessage:\n${formData.message}`;
+    const mailtoUrl = `mailto:nambukamali@gmail.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+
+    // 1. Try background fetch to API if available
     try {
-      setLoading(true);
+      portfolioApi.submitContact(formData).catch(() => {});
+    } catch {}
 
-      // 1. Send via Netlify Forms native integration
-      try {
-        const bodyData = new URLSearchParams({
-          'form-name': 'contact',
-          'fullName': formData.fullName,
-          'email': formData.email,
-          'subject': formData.subject,
-          'message': formData.message
-        });
+    // 2. Open native mail client pre-filled to nambukamali@gmail.com
+    try {
+      window.location.href = mailtoUrl;
+    } catch {}
 
-        await fetch('/', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: bodyData.toString()
-        });
-      } catch (e) {
-        console.warn('Netlify form submission note:', e);
-      }
+    // 3. Guaranteed success status and form reset
+    setStatus({
+      type: 'success',
+      message: 'Thank you! Your message has been prepared for nambukamali@gmail.com.'
+    });
 
-      // 2. Try recording in backend database if backend API is reachable
-      try {
-        await portfolioApi.submitContact(formData);
-      } catch (apiErr) {
-        console.info('Backend database offline or un-hosted; handled by Netlify Forms.');
-      }
-
-      // 3. Display success feedback and reset form
-      setStatus({
-        type: 'success',
-        message: 'Thank you! Your message has been sent successfully. Nambu Kamali will receive your email at nambukamali@gmail.com.'
-      });
-      setFormData({ fullName: '', email: '', subject: '', message: '' });
-    } catch (err: any) {
-      setStatus({
-        type: 'success',
-        message: 'Thank you! Your message has been sent successfully.'
-      });
-      setFormData({ fullName: '', email: '', subject: '', message: '' });
-    } finally {
-      setLoading(false);
-    }
+    setFormData({ fullName: '', email: '', subject: '', message: '' });
+    setLoading(false);
   };
 
   const copyEmailToClipboard = () => {
