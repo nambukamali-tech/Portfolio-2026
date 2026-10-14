@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FolderGit2, Search, ExternalLink, Eye, X, Terminal, CheckCircle } from 'lucide-react';
 import { GithubIcon } from '../common/SocialIcons';
 import type { Project } from '../../types/portfolio';
+import { TechDetailModal } from '../common/TechDetailModal';
+import { getTechDetail, type TechDetail } from '../../data/techDetails';
 
 interface ProjectsProps {
   projects: Project[];
@@ -14,6 +16,7 @@ export const Projects: React.FC<ProjectsProps> = ({ projects }) => {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [activeModalProject, setActiveModalProject] = useState<Project | null>(null);
+  const [selectedTech, setSelectedTech] = useState<TechDetail | null>(null);
 
   const filteredProjects = projects.filter((p) => {
     const matchesCategory = selectedCategory === 'All' || p.category.toLowerCase() === selectedCategory.toLowerCase();
@@ -117,12 +120,18 @@ export const Projects: React.FC<ProjectsProps> = ({ projects }) => {
 
                   <div className="flex flex-wrap gap-1.5 pt-2">
                     {project.technologies.slice(0, 4).map((tech) => (
-                      <span
+                      <button
+                        type="button"
                         key={tech}
-                        className="px-2 py-0.5 text-[10px] font-mono rounded-md bg-[#0A1020] text-slate-300 border border-[#1E293B]"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedTech(getTechDetail(tech));
+                        }}
+                        className="px-2 py-0.5 text-[10px] font-mono rounded-md bg-[#0A1020] hover:bg-blue-600/20 text-slate-300 hover:text-cyan-300 border border-[#1E293B] hover:border-cyan-500/40 cursor-pointer transition-colors"
+                        title={`Click to read about ${tech}`}
                       >
                         {tech}
-                      </span>
+                      </button>
                     ))}
                     {project.technologies.length > 4 && (
                       <span className="px-1.5 py-0.5 text-[10px] font-mono text-slate-500">
@@ -248,9 +257,15 @@ export const Projects: React.FC<ProjectsProps> = ({ projects }) => {
                   <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider">Technologies Used</h4>
                   <div className="flex flex-wrap gap-2">
                     {activeModalProject.technologies.map((t) => (
-                      <span key={t} className="px-3 py-1 bg-[#0A1020] border border-[#1E293B] rounded-xl text-xs font-mono text-cyan-300">
+                      <button
+                        type="button"
+                        key={t}
+                        onClick={() => setSelectedTech(getTechDetail(t))}
+                        className="px-3 py-1 bg-[#0A1020] hover:bg-blue-600/20 border border-[#1E293B] hover:border-cyan-500/50 rounded-xl text-xs font-mono text-cyan-300 hover:text-white cursor-pointer transition-all"
+                        title={`Click to view architectural details of ${t}`}
+                      >
                         {t}
-                      </span>
+                      </button>
                     ))}
                   </div>
                 </div>
@@ -283,8 +298,13 @@ export const Projects: React.FC<ProjectsProps> = ({ projects }) => {
             </div>
           )}
         </AnimatePresence>
-
       </div>
+
+      {/* Interactive Technology Details Modal */}
+      <TechDetailModal
+        tech={selectedTech}
+        onClose={() => setSelectedTech(null)}
+      />
     </section>
   );
 };

@@ -1,13 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Briefcase, MapPin } from 'lucide-react';
 import type { Experience as ExperienceType } from '../../types/portfolio';
+import { TechDetailModal } from '../common/TechDetailModal';
+import { getTechDetail, type TechDetail } from '../../data/techDetails';
 
 interface ExperienceProps {
   experiences: ExperienceType[];
 }
 
 export const Experience: React.FC<ExperienceProps> = ({ experiences }) => {
+  const [selectedTech, setSelectedTech] = useState<TechDetail | null>(null);
+
   return (
     <section id="experience" className="py-24 bg-[#0A1020] relative">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -78,12 +82,15 @@ export const Experience: React.FC<ExperienceProps> = ({ experiences }) => {
 
                 <div className="flex flex-wrap items-center gap-2 pt-2">
                   {item.technologies.map((tech) => (
-                    <span
+                    <button
+                      type="button"
                       key={tech}
-                      className="px-2.5 py-1 text-xs font-mono font-medium rounded-lg bg-[#0A1020] text-cyan-300 border border-[#1E293B]"
+                      onClick={() => setSelectedTech(getTechDetail(tech))}
+                      className="px-2.5 py-1 text-xs font-mono font-medium rounded-lg bg-[#0A1020] hover:bg-blue-600/20 text-cyan-300 hover:text-white border border-[#1E293B] hover:border-cyan-500/40 cursor-pointer transition-all"
+                      title={`Click to read about ${tech}`}
                     >
                       {tech}
-                    </span>
+                    </button>
                   ))}
                 </div>
               </div>
@@ -91,6 +98,12 @@ export const Experience: React.FC<ExperienceProps> = ({ experiences }) => {
           ))}
         </div>
       </div>
+
+      {/* Interactive Technology Details Modal */}
+      <TechDetailModal
+        tech={selectedTech}
+        onClose={() => setSelectedTech(null)}
+      />
     </section>
   );
 };
