@@ -117,7 +117,7 @@ namespace Portfolio.Api.Controllers
                 e.EndDate,
                 e.IsCurrent,
                 e.Description,
-                e.Technologies.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToList(),
+                (e.Technologies ?? string.Empty).Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToList(),
                 e.DisplayOrder
             ));
 
@@ -177,7 +177,7 @@ namespace Portfolio.Api.Controllers
                 p.FullDescription,
                 p.ThumbnailUrl,
                 p.Category,
-                p.Technologies.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToList(),
+                (p.Technologies ?? string.Empty).Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToList(),
                 p.GitHubUrl,
                 p.LiveDemoUrl,
                 p.ProjectStatus,
@@ -212,7 +212,7 @@ namespace Portfolio.Api.Controllers
                 p.FullDescription,
                 p.ThumbnailUrl,
                 p.Category,
-                p.Technologies.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToList(),
+                (p.Technologies ?? string.Empty).Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToList(),
                 p.GitHubUrl,
                 p.LiveDemoUrl,
                 p.ProjectStatus,
@@ -321,7 +321,7 @@ namespace Portfolio.Api.Controllers
                 s.Title,
                 s.Description,
                 s.Icon,
-                s.Technologies.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToList(),
+                (s.Technologies ?? string.Empty).Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToList(),
                 s.IsActive,
                 s.DisplayOrder
             ));

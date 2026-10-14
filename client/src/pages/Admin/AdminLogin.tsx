@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Shield, Lock, Mail, Loader2, ArrowLeft } from 'lucide-react';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../context/useAuth';
 import { portfolioApi } from '../../services/api';
 
 export const AdminLogin: React.FC = () => {

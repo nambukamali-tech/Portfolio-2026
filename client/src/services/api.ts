@@ -66,7 +66,7 @@ export const portfolioApi = {
         { id: '11', name: 'MySQL', category: 'Database', icon: 'Table', displayOrder: 11, isVisible: true },
         { id: '12', name: 'PostgreSQL', category: 'Database', icon: 'DatabaseBackup', displayOrder: 12, isVisible: true },
         { id: '13', name: 'Visual Studio / VS Code', category: 'Tools & Platforms', icon: 'Laptop', displayOrder: 13, isVisible: true },
-        { id: '14', name: 'Git & GitHub', category: 'Tools & Platforms', icon: 'GitBranch', DisplayOrder: 14, isVisible: true } as any,
+        { id: '14', name: 'Git & GitHub', category: 'Tools & Platforms', icon: 'GitBranch', displayOrder: 14, isVisible: true },
         { id: '15', name: 'RabbitMQ & Microservices', category: 'Architecture & Concepts', icon: 'Cpu', displayOrder: 15, isVisible: true },
         { id: '16', name: 'Clean Architecture & RBAC', category: 'Architecture & Concepts', icon: 'ShieldCheck', displayOrder: 16, isVisible: true }
       ];

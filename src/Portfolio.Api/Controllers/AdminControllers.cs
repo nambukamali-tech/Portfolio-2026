@@ -228,7 +228,7 @@ namespace Portfolio.Api.Controllers
             var projects = await _context.Projects.OrderBy(p => p.DisplayOrder).ToListAsync();
             return Ok(projects.Select(p => new ProjectDto(
                 p.Id, p.Title, p.Slug, p.ShortDescription, p.FullDescription, p.ThumbnailUrl, p.Category,
-                p.Technologies.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToList(),
+                (p.Technologies ?? string.Empty).Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToList(),
                 p.GitHubUrl, p.LiveDemoUrl, p.ProjectStatus, p.IsFeatured, p.IsPublished, p.DisplayOrder,
                 p.ProblemStatement, p.SolutionOverview, p.ArchitectureNotes, p.CreatedAt
             )));
@@ -266,7 +266,7 @@ namespace Portfolio.Api.Controllers
 
             return Ok(new ProjectDto(
                 p.Id, p.Title, p.Slug, p.ShortDescription, p.FullDescription, p.ThumbnailUrl, p.Category,
-                p.Technologies.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToList(),
+                (p.Technologies ?? string.Empty).Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToList(),
                 p.GitHubUrl, p.LiveDemoUrl, p.ProjectStatus, p.IsFeatured, p.IsPublished, p.DisplayOrder,
                 p.ProblemStatement, p.SolutionOverview, p.ArchitectureNotes, p.CreatedAt
             ));
@@ -299,7 +299,7 @@ namespace Portfolio.Api.Controllers
 
             return Ok(new ProjectDto(
                 p.Id, p.Title, p.Slug, p.ShortDescription, p.FullDescription, p.ThumbnailUrl, p.Category,
-                p.Technologies.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToList(),
+                (p.Technologies ?? string.Empty).Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToList(),
                 p.GitHubUrl, p.LiveDemoUrl, p.ProjectStatus, p.IsFeatured, p.IsPublished, p.DisplayOrder,
                 p.ProblemStatement, p.SolutionOverview, p.ArchitectureNotes, p.CreatedAt
             ));

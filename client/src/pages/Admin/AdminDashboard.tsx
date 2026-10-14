@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard, User, Code, FolderGit2, Mail, LogOut, Plus, Trash2, Eye, EyeOff, Upload, Check
 } from 'lucide-react';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../context/useAuth';
 import { portfolioApi } from '../../services/api';
 import type { Profile, Skill, Project, ContactMessage, DashboardOverview } from '../../types/portfolio';
 
@@ -26,28 +26,35 @@ export const AdminDashboard: React.FC = () => {
     title: '', shortDescription: '', fullDescription: '', thumbnailUrl: '', category: 'Full-Stack', technologies: ['C#', 'React', 'PostgreSQL'], gitHubUrl: '', liveDemoUrl: '', projectStatus: 'Completed', isFeatured: true, isPublished: true, displayOrder: 1, problemStatement: '', solutionOverview: '', architectureNotes: ''
   });
 
-  const loadData = async () => {
-    try {
-      const [ov, prof, sk, pr, msgs] = await Promise.all([
-        portfolioApi.getAdminOverview().catch(() => null),
-        portfolioApi.getProfile(),
-        portfolioApi.getSkills(),
-        portfolioApi.getProjects(undefined, undefined, 1, 50).then(r => r.items),
-        portfolioApi.getAdminMessages().catch(() => []),
-      ]);
-
-      if (ov) setOverview(ov);
-      if (prof) setProfile(prof);
-      if (sk) setSkills(sk);
-      if (pr) setProjects(pr);
-      if (msgs) setMessages(msgs);
-    } catch (err) {
-      console.error('Error fetching admin data:', err);
-    }
-  };
-
   useEffect(() => {
-    loadData();
+    let isMounted = true;
+
+    const fetchData = async () => {
+      try {
+        const [ov, prof, sk, pr, msgs] = await Promise.all([
+          portfolioApi.getAdminOverview().catch(() => null),
+          portfolioApi.getProfile(),
+          portfolioApi.getSkills(),
+          portfolioApi.getProjects(undefined, undefined, 1, 50).then(r => r.items),
+          portfolioApi.getAdminMessages().catch(() => []),
+        ]);
+
+        if (!isMounted) return;
+        if (ov) setOverview(ov);
+        if (prof) setProfile(prof);
+        if (sk) setSkills(sk);
+        if (pr) setProjects(pr);
+        if (msgs) setMessages(msgs);
+      } catch (err) {
+        console.error('Error fetching admin data:', err);
+      }
+    };
+
+    void fetchData();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const handleProfileSave = async (e: React.FormEvent) => {

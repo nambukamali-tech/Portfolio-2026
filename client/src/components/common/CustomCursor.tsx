@@ -3,15 +3,13 @@ import React, { useEffect, useState } from 'react';
 export const CustomCursor: React.FC = () => {
   const [position, setPosition] = useState({ x: -100, y: -100 });
   const [isPointer, setIsPointer] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return !('ontouchstart' in window || (typeof navigator !== 'undefined' && navigator.maxTouchPoints > 0));
+  });
 
   useEffect(() => {
-    // Disable on touch devices
-    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
-      return;
-    }
-
-    setIsVisible(true);
+    if (!isVisible) return;
 
     const onMouseMove = (e: MouseEvent) => {
       setPosition({ x: e.clientX, y: e.clientY });
@@ -42,7 +40,7 @@ export const CustomCursor: React.FC = () => {
       document.removeEventListener('mouseleave', onMouseLeave);
       document.removeEventListener('mouseenter', onMouseEnter);
     };
-  }, []);
+  }, [isVisible]);
 
   if (!isVisible) return null;
 

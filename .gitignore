@@ -15,6 +15,7 @@ dist/
 *.log
 
 # IDE & OS
+.vs/
 .vscode/
 .idea/
 Thumbs.db

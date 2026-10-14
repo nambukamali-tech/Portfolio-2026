@@ -1,18 +1,5 @@
-import React, { createContext, useContext, useState } from 'react';
-
-interface AuthContextType {
-  isAuthenticated: boolean;
-  user: { email: string; username: string } | null;
-  login: (token: string, email: string, username: string) => void;
-  logout: () => void;
-}
-
-const AuthContext = createContext<AuthContextType>({
-  isAuthenticated: false,
-  user: null,
-  login: () => {},
-  logout: () => {},
-});
+import React, { useState } from 'react';
+import { AuthContext } from './authContextDef';
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
@@ -45,5 +32,3 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     </AuthContext.Provider>
   );
 };
-
-export const useAuth = () => useContext(AuthContext);
