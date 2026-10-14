@@ -6,20 +6,102 @@ endobj
 << /Type /Pages /Kids [3 0 R] /Count 1 >>
 endobj
 3 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources << /Font << /F1 5 0 R >> >> >>
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Contents 4 0 R /Resources << /Font << /F1 5 0 R >> >> >>
 endobj
 4 0 obj
-<< /Length 200 >>
+<< /Length 3094 >>
 stream
 BT
-/F1 20 Tf
-50 730 Td
-(Nambu Kamali N - Full Stack .NET Developer) Tj
-0 -30 Td
+/F1 18 Tf
+50 760 Td
+(NAMBU KAMALI N) Tj
+0 -16 Td
+/F1 10 Tf
+(Software Developer | .NET & Full-Stack Engineer | University 1st Rank Holder \(Gold Medalist\)) Tj
+0 -14 Td
+/F1 9 Tf
+(Email: nambukamali@gmail.com  |  Phone: +91 7695844877  |  Location: Coimbatore, Tamil Nadu, India) Tj
+0 -18 Td
+/F1 9 Tf
+(GitHub: https://github.com/nambukamali-tech  |  Portfolio: https://github.com/nambukamali-tech/Portfolio-2026) Tj
+0 -20 Td
 /F1 12 Tf
-(Alagappa University 1st Rank Holder | ASP.NET Core & React Specialist) Tj
-0 -25 Td
-(Email: nambukamali@gmail.com | Location: Coimbatore, India) Tj
+(PROFESSIONAL SUMMARY) Tj
+0 -14 Td
+/F1 9.5 Tf
+(High-achieving Software Engineer and Alagappa University Gold Medalist \(CGPA: 8.93/10\) with hands-on enterprise) Tj
+0 -13 Td
+/F1 9.5 Tf
+(experience building robust, scalable backend architectures using ASP.NET Core 8, MediatR \(CQRS\), Clean Architecture,) Tj
+0 -18 Td
+/F1 9.5 Tf
+(Entity Framework Core, SQL Server, RabbitMQ, and modern React 19 TypeScript frontends.) Tj
+0 -20 Td
+/F1 12 Tf
+(WORK EXPERIENCE) Tj
+0 -15 Td
+/F1 10 Tf
+(Junior Software Developer - PrimeMover Solutions, Coimbatore, India \(Oct 2024 - Present\)) Tj
+0 -13 Td
+/F1 9 Tf
+(- FFM \(Field Force Management\): Architected cumulative attendance tracking and break calculation engines with CQRS.) Tj
+0 -13 Td
+/F1 9 Tf
+(- Implemented strict geofencing validation, real-time manager correction workflows, and automated reporting.) Tj
+0 -13 Td
+/F1 9 Tf
+(- Ackcio Telemetry Ingestion: Designed high-throughput IoT sensor data parsing pipeline with zero data loss.) Tj
+0 -18 Td
+/F1 9 Tf
+(- Designed normalized SQL Server database schemas, optimized execution plans, and indexed high-volume tables.) Tj
+0 -15 Td
+/F1 10 Tf
+(Full-Stack Development Intern - Eminent Technology Solution, Coimbatore \(May 2024 - Jul 2024\)) Tj
+0 -18 Td
+/F1 9 Tf
+(- Developed responsive React TypeScript interfaces, built RESTful APIs in C#, and integrated secure JWT authentication.) Tj
+0 -20 Td
+/F1 12 Tf
+(EDUCATION & ACADEMIC HONORS) Tj
+0 -14 Td
+/F1 9.5 Tf
+(- M.Sc Computer Science - Alagappa University \(2023 - 2025\)) Tj
+0 -13 Td
+/F1 9.5 Tf
+(  * Honors: University 1st Rank Holder & Gold Medalist \(CGPA: 8.93 / 10.0\)) Tj
+0 -14 Td
+/F1 9.5 Tf
+(- B.Sc Computer Science - Alagappa University \(2020 - 2023\)) Tj
+0 -18 Td
+/F1 9.5 Tf
+(  * Honors: 5th Rank Holder \(CGPA: 8.70 / 10.0\)) Tj
+0 -20 Td
+/F1 12 Tf
+(CORE TECHNICAL SKILLS) Tj
+0 -13 Td
+/F1 9 Tf
+(- Backend: C#, ASP.NET Core 8 / 10 Web API, MediatR \(CQRS\), Clean Architecture, Entity Framework Core, LINQ) Tj
+0 -13 Td
+/F1 9 Tf
+(- Databases & Messaging: Microsoft SQL Server, PostgreSQL, Redis Caching, RabbitMQ Message Broker) Tj
+0 -13 Td
+/F1 9 Tf
+(- Frontend: React 19, TypeScript, JavaScript \(ES6+\), TailwindCSS, Vite, HTML5, CSS3, Responsive UI) Tj
+0 -18 Td
+/F1 9 Tf
+(- DevOps & Tools: Git, GitHub, Docker, Postman, Swagger / OpenAPI, Unit Testing \(xUnit\), CI/CD) Tj
+0 -20 Td
+/F1 12 Tf
+(LANGUAGES) Tj
+0 -14 Td
+/F1 9.5 Tf
+(- English: Professional Working Proficiency \(Technical Documentation & Engineering Communication\)) Tj
+0 -13 Td
+/F1 9.5 Tf
+(- Tamil: Native / Bilingual Proficiency) Tj
+0 -14 Td
+/F1 9.5 Tf
+(- Japanese: Elementary Proficiency \(JLPT N5 - In Progress / Currently Learning\)) Tj
 ET
 endstream
 endobj
@@ -32,10 +114,10 @@ xref
 0000000009 00000 n 
 0000000058 00000 n 
 0000000115 00000 n 
-0000000234 00000 n 
-0000000486 00000 n 
+0000000241 00000 n 
+0000003386 00000 n 
 trailer
 << /Size 6 /Root 1 0 R >>
 startxref
-560
+3456
 %%EOF

@@ -230,9 +230,13 @@ export const RecruiterModal: React.FC<RecruiterModalProps> = ({ isOpen, onClose,
 
             {/* Bottom Actions Bar */}
             <div className="p-5 sm:p-6 pt-4 bg-[#05070D] border-t border-[#1E293B] flex flex-wrap items-center justify-between gap-3">
-              <div className="flex items-center gap-2 text-xs text-slate-400">
-                <MapPin className="w-3.5 h-3.5 text-cyan-400" />
-                <span>Coimbatore, Tamil Nadu • Willing to Relocate / Remote</span>
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 text-xs text-slate-400">
+                <div className="flex items-center gap-1.5">
+                  <MapPin className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+                  <span>Coimbatore, TN • Remote / Relocate</span>
+                </div>
+                <span className="hidden sm:inline text-slate-600">•</span>
+                <span className="text-cyan-300 font-medium">Languages: English • Tamil • Japanese (JLPT N5 Learning)</span>
               </div>
 
               <div className="flex flex-wrap items-center gap-2.5">

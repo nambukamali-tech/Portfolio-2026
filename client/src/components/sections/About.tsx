@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { User, MapPin, Briefcase, Calendar, Code, CheckCircle, FileText, ExternalLink } from 'lucide-react';
+import { User, MapPin, Briefcase, Calendar, Code, CheckCircle, FileText, ExternalLink, Languages } from 'lucide-react';
 import type { Profile } from '../../types/portfolio';
 
 interface AboutProps {
@@ -15,6 +15,7 @@ export const About: React.FC<AboutProps> = ({ profile }) => {
     { label: 'Status', value: profile.availabilityStatus, icon: CheckCircle },
     { label: 'Primary Focus', value: '.NET Core & React TS', icon: Code },
     { label: 'Experience', value: `${profile.yearsExperience}+ Year`, icon: Calendar },
+    { label: 'Languages', value: 'English, Tamil, Japanese (JLPT N5 Prep)', icon: Languages },
   ];
 
   return (
@@ -84,7 +85,7 @@ export const About: React.FC<AboutProps> = ({ profile }) => {
                 My problem-solving philosophy centers around strong engineering foundations: understanding business domain requirements, writing modular and readable code (SOLID principles), designing normalized PostgreSQL database schemas, and securing endpoints with JWT authentication.
               </p>
               <p>
-                I constantly seek opportunities to grow my skills, collaborate with experienced tech leads, and deliver high-impact web applications.
+                I constantly seek opportunities to grow my skills, collaborate with experienced tech leads, and deliver high-impact web applications. In addition to continuous backend engineering advancements, I am actively studying Japanese and preparing for the JLPT N5 certification.
               </p>
             </div>
 
