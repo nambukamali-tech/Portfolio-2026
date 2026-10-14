@@ -105,7 +105,7 @@ export const Footer: React.FC<FooterProps> = ({ profile }) => {
         </div>
 
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
-          <p>© {CURRENT_YEAR} Nambu Kamali. Built with ASP.NET Core Web API & React TypeScript.</p>
+          <p>© {CURRENT_YEAR} Nambu Kamali N</p>
           <div className="flex items-center gap-4">
             <a href="#home" className="hover:text-slate-400 transition-colors">Back to Top</a>
             <span>•</span>
