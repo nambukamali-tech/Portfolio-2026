@@ -129,19 +129,19 @@ export const Hero: React.FC<HeroProps> = ({ profile, onOpenRecruiterModal }) => 
             <div className="absolute w-[22rem] h-[22rem] rounded-full border border-cyan-500/15 animate-spin-reverse-slow" />
           </div>
 
-          <div className="absolute top-4 left-6 z-20 px-3 py-1.5 rounded-full bg-[#0E172B]/90 border border-blue-500/30 text-xs font-mono text-cyan-300 shadow-lg flex items-center gap-2">
+          <div className="absolute top-4 left-6 z-20 px-3 py-1.5 rounded-full bg-[#0E172B]/90 border border-blue-500/30 text-xs font-mono text-cyan-300 shadow-lg flex items-center gap-2 animate-float-slow">
             <Terminal className="w-3.5 h-3.5 text-purple-400" />
             <span>C# / .NET 10</span>
           </div>
 
-          <div className="absolute bottom-6 right-4 z-20 px-3 py-1.5 rounded-full bg-[#0E172B]/90 border border-cyan-500/30 text-xs font-mono text-cyan-300 shadow-lg flex items-center gap-2">
+          <div className="absolute bottom-6 right-4 z-20 px-3 py-1.5 rounded-full bg-[#0E172B]/90 border border-cyan-500/30 text-xs font-mono text-cyan-300 shadow-lg flex items-center gap-2 animate-float-reverse-slow">
             <Code2 className="w-3.5 h-3.5 text-cyan-400" />
             <span>React + TS</span>
           </div>
 
-          <div className="absolute top-1/2 -right-4 -translate-y-1/2 z-20 px-3 py-1.5 rounded-full bg-[#0E172B]/90 border border-blue-500/30 text-xs font-mono text-blue-300 shadow-lg flex items-center gap-2">
+          <div className="absolute top-1/2 -right-4 -translate-y-1/2 z-20 px-3 py-1.5 rounded-full bg-[#0E172B]/90 border border-blue-500/30 text-xs font-mono text-blue-300 shadow-lg flex items-center gap-2 animate-float-slow">
             <Database className="w-3.5 h-3.5 text-blue-400" />
-            <span>PostgreSQL</span>
+            <span>SQL Server / EF</span>
           </div>
 
           <div className="relative z-10 w-64 h-64 sm:w-80 sm:h-80 rounded-3xl p-1.5 bg-gradient-to-tr from-blue-600 via-cyan-400 to-blue-500 shadow-2xl shadow-blue-600/30">

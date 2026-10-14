@@ -57,12 +57,17 @@ export const Home: React.FC = () => {
   return (
     <div className="min-h-screen bg-[#05070D] text-slate-100 selection:bg-blue-600 selection:text-white relative">
       <CustomCursor />
+
+      {/* Cybernetic Subtle Tech Grid & Ambient Radial Vignette */}
+      <div className="fixed inset-0 cyber-grid-bg pointer-events-none z-0 opacity-75" />
+      <div className="fixed inset-0 bg-gradient-to-b from-blue-950/15 via-transparent to-[#05070D]/90 pointer-events-none z-0" />
+
       <Navbar
         resumeUrl={profile.resumeUrl}
         onOpenRecruiterModal={() => setIsRecruiterModalOpen(true)}
       />
       
-      <main>
+      <main className="relative z-10">
         <Hero
           profile={profile}
           onOpenRecruiterModal={() => setIsRecruiterModalOpen(true)}
