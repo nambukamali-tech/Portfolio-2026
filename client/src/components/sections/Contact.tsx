@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, Send, CheckCircle2, AlertCircle, Copy, Check, MapPin, Loader2 } from 'lucide-react';
+import { Mail, Send, CheckCircle2, AlertCircle, Copy, Check, MapPin, Loader2, ExternalLink } from 'lucide-react';
 import { GithubIcon, LinkedinIcon } from '../common/SocialIcons';
 import { portfolioApi } from '../../services/api';
 import type { Profile } from '../../types/portfolio';
@@ -136,15 +136,27 @@ export const Contact: React.FC<ContactProps> = ({ profile }) => {
                   </button>
                 </div>
 
-                <div className="p-4 bg-[#0A1020] rounded-2xl border border-[#1E293B] flex items-center gap-3">
-                  <div className="p-2.5 bg-blue-600/10 text-cyan-400 rounded-xl">
-                    <MapPin className="w-5 h-5" />
+                <a
+                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(profile.location || 'Coimbatore, Tamil Nadu, India')}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-4 bg-[#0A1020] hover:bg-[#111A30] rounded-2xl border border-[#1E293B] hover:border-cyan-500/50 flex items-center justify-between gap-3 group transition-all duration-300"
+                  title="Click to view location in Google Maps"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="p-2.5 bg-blue-600/10 text-cyan-400 rounded-xl group-hover:scale-110 group-hover:bg-cyan-500/20 transition-all">
+                      <MapPin className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <p className="text-[10px] text-slate-500 uppercase font-bold group-hover:text-cyan-400 transition-colors">Location</p>
+                      <p className="text-xs sm:text-sm font-semibold text-white group-hover:text-cyan-300 transition-colors">{profile.location}</p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-[10px] text-slate-500 uppercase font-bold">Location</p>
-                    <p className="text-xs sm:text-sm font-semibold text-white">{profile.location}</p>
-                  </div>
-                </div>
+                  <span className="inline-flex items-center gap-1 text-[11px] text-cyan-400 opacity-80 group-hover:opacity-100 transition-opacity">
+                    <span>View Map</span>
+                    <ExternalLink className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                  </span>
+                </a>
               </div>
 
               <div className="pt-4 border-t border-[#1E293B] space-y-3">

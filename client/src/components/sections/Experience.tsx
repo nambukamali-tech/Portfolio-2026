@@ -56,10 +56,16 @@ export const Experience: React.FC<ExperienceProps> = ({ experiences }) => {
                   </div>
 
                   <div className="flex items-center gap-3 text-xs text-slate-400">
-                    <span className="flex items-center gap-1">
-                      <MapPin className="w-3.5 h-3.5 text-cyan-400" />
-                      {item.location}
-                    </span>
+                    <a
+                      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.location)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1 hover:text-cyan-300 transition-colors group/loc"
+                      title={`View ${item.location} on Google Maps`}
+                    >
+                      <MapPin className="w-3.5 h-3.5 text-cyan-400 group-hover/loc:scale-110 transition-transform" />
+                      <span className="underline decoration-dotted decoration-slate-600 hover:decoration-cyan-400">{item.location}</span>
+                    </a>
                     <span className="sm:hidden font-mono text-cyan-400">
                       {new Date(item.startDate).getFullYear()} - {item.isCurrent ? 'Present' : ''}
                     </span>

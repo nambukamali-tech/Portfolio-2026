@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { User, MapPin, Briefcase, Calendar, Code, CheckCircle, FileText } from 'lucide-react';
+import { User, MapPin, Briefcase, Calendar, Code, CheckCircle, FileText, ExternalLink } from 'lucide-react';
 import type { Profile } from '../../types/portfolio';
 
 interface AboutProps {
@@ -91,6 +91,30 @@ export const About: React.FC<AboutProps> = ({ profile }) => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
               {infoDetails.map((info) => {
                 const IconComponent = info.icon;
+                if (info.label === 'Location') {
+                  return (
+                    <a
+                      key={info.label}
+                      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(profile.location || 'Coimbatore, Tamil Nadu, India')}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-4 bg-[#0E172B] hover:bg-[#131F3A] rounded-2xl border border-[#1E293B] hover:border-cyan-500/50 flex items-center justify-between gap-4 transition-all duration-300 group"
+                      title="Click to view location in Google Maps"
+                    >
+                      <div className="flex items-center gap-4">
+                        <div className="p-2.5 bg-blue-600/10 text-cyan-400 rounded-xl group-hover:scale-110 group-hover:bg-cyan-500/20 transition-all">
+                          <IconComponent className="w-5 h-5" />
+                        </div>
+                        <div>
+                          <p className="text-xs text-slate-400 uppercase font-medium group-hover:text-cyan-400 transition-colors">Location</p>
+                          <p className="text-sm font-semibold text-white group-hover:text-cyan-300 transition-colors mt-0.5">{info.value}</p>
+                        </div>
+                      </div>
+                      <ExternalLink className="w-4 h-4 text-slate-500 group-hover:text-cyan-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0" />
+                    </a>
+                  );
+                }
+
                 return (
                   <div
                     key={info.label}
