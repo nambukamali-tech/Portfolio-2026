@@ -4,6 +4,7 @@ import { Briefcase, MapPin } from 'lucide-react';
 import type { Experience as ExperienceType } from '../../types/portfolio';
 import { TechDetailModal } from '../common/TechDetailModal';
 import { getTechDetail, type TechDetail } from '../../data/techDetails';
+import { SpotlightCard } from '../common/SpotlightCard';
 
 interface ExperienceProps {
   experiences: ExperienceType[];
@@ -48,52 +49,54 @@ export const Experience: React.FC<ExperienceProps> = ({ experiences }) => {
                 </span>
               </div>
 
-              <div className="glass-panel glass-panel-hover p-6 rounded-2xl border border-[#1E293B] space-y-4">
-                <div className="flex flex-wrap items-start justify-between gap-2 border-b border-[#1E293B]/60 pb-3">
-                  <div>
-                    <h3 className="text-xl font-bold text-white group-hover:text-cyan-300 transition-colors">
-                      {item.jobTitle}
-                    </h3>
-                    <p className="text-sm font-semibold text-blue-400 mt-0.5">
-                      {item.companyName} <span className="text-slate-500 font-normal">({item.employmentType})</span>
-                    </p>
+              <SpotlightCard className="rounded-2xl">
+                <div className="p-6 space-y-4">
+                  <div className="flex flex-wrap items-start justify-between gap-2 border-b border-[#1E293B]/60 pb-3">
+                    <div>
+                      <h3 className="text-xl font-bold text-white group-hover:text-cyan-300 transition-colors">
+                        {item.jobTitle}
+                      </h3>
+                      <p className="text-sm font-semibold text-blue-400 mt-0.5">
+                        {item.companyName} <span className="text-slate-500 font-normal">({item.employmentType})</span>
+                      </p>
+                    </div>
+
+                    <div className="flex items-center gap-3 text-xs text-slate-400">
+                      <a
+                        href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.location)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-1 hover:text-cyan-300 transition-colors group/loc"
+                        title={`View ${item.location} on Google Maps`}
+                      >
+                        <MapPin className="w-3.5 h-3.5 text-cyan-400 group-hover/loc:scale-110 transition-transform" />
+                        <span className="underline decoration-dotted decoration-slate-600 hover:decoration-cyan-400">{item.location}</span>
+                      </a>
+                      <span className="sm:hidden font-mono text-cyan-400">
+                        {new Date(item.startDate).getFullYear()} - {item.isCurrent ? 'Present' : ''}
+                      </span>
+                    </div>
                   </div>
 
-                  <div className="flex items-center gap-3 text-xs text-slate-400">
-                    <a
-                      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.location)}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-1 hover:text-cyan-300 transition-colors group/loc"
-                      title={`View ${item.location} on Google Maps`}
-                    >
-                      <MapPin className="w-3.5 h-3.5 text-cyan-400 group-hover/loc:scale-110 transition-transform" />
-                      <span className="underline decoration-dotted decoration-slate-600 hover:decoration-cyan-400">{item.location}</span>
-                    </a>
-                    <span className="sm:hidden font-mono text-cyan-400">
-                      {new Date(item.startDate).getFullYear()} - {item.isCurrent ? 'Present' : ''}
-                    </span>
+                  <p className="text-slate-300 text-sm leading-relaxed">
+                    {item.description}
+                  </p>
+
+                  <div className="flex flex-wrap items-center gap-2 pt-2">
+                    {item.technologies.map((tech) => (
+                      <button
+                        type="button"
+                        key={tech}
+                        onClick={() => setSelectedTech(getTechDetail(tech))}
+                        className="px-2.5 py-1 text-xs font-mono font-medium rounded-lg bg-[#0A1020] hover:bg-blue-600/20 text-cyan-300 hover:text-white border border-[#1E293B] hover:border-cyan-500/40 cursor-pointer transition-all"
+                        title={`Click to read about ${tech}`}
+                      >
+                        {tech}
+                      </button>
+                    ))}
                   </div>
                 </div>
-
-                <p className="text-slate-300 text-sm leading-relaxed">
-                  {item.description}
-                </p>
-
-                <div className="flex flex-wrap items-center gap-2 pt-2">
-                  {item.technologies.map((tech) => (
-                    <button
-                      type="button"
-                      key={tech}
-                      onClick={() => setSelectedTech(getTechDetail(tech))}
-                      className="px-2.5 py-1 text-xs font-mono font-medium rounded-lg bg-[#0A1020] hover:bg-blue-600/20 text-cyan-300 hover:text-white border border-[#1E293B] hover:border-cyan-500/40 cursor-pointer transition-all"
-                      title={`Click to read about ${tech}`}
-                    >
-                      {tech}
-                    </button>
-                  ))}
-                </div>
-              </div>
+              </SpotlightCard>
             </motion.div>
           ))}
         </div>

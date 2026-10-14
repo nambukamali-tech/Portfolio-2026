@@ -5,6 +5,7 @@ import { GithubIcon } from '../common/SocialIcons';
 import type { Project } from '../../types/portfolio';
 import { TechDetailModal } from '../common/TechDetailModal';
 import { getTechDetail, type TechDetail } from '../../data/techDetails';
+import { SpotlightCard } from '../common/SpotlightCard';
 
 interface ProjectsProps {
   projects: Project[];
@@ -89,92 +90,96 @@ export const Projects: React.FC<ProjectsProps> = ({ projects }) => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 key={project.id}
-                className="glass-panel glass-panel-hover rounded-3xl overflow-hidden border border-[#1E293B] flex flex-col justify-between group"
+                className="h-full"
               >
-                <div className="relative aspect-video overflow-hidden bg-[#0A1020]">
-                  <img
-                    src={project.thumbnailUrl}
-                    alt={project.title}
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80';
-                    }}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-[#05070D]/80 backdrop-blur-md border border-[#1E293B] text-[10px] font-mono text-cyan-400">
-                    {project.projectStatus}
-                  </div>
-                </div>
-
-                <div className="p-6 space-y-4 flex-1 flex flex-col justify-between">
-                  <div className="space-y-2">
-                    <span className="text-[10px] font-mono uppercase tracking-wider text-blue-400 font-bold">
-                      {project.category}
-                    </span>
-                    <h3 className="text-xl font-bold text-white group-hover:text-cyan-300 transition-colors">
-                      {project.title}
-                    </h3>
-                    <p className="text-slate-400 text-xs line-clamp-3 leading-relaxed">
-                      {project.shortDescription}
-                    </p>
-                  </div>
-
-                  <div className="flex flex-wrap gap-1.5 pt-2">
-                    {project.technologies.slice(0, 4).map((tech) => (
-                      <button
-                        type="button"
-                        key={tech}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setSelectedTech(getTechDetail(tech));
+                <SpotlightCard className="h-full">
+                  <div className="flex flex-col justify-between h-full group">
+                    <div className="relative aspect-video overflow-hidden bg-[#0A1020]">
+                      <img
+                        src={project.thumbnailUrl}
+                        alt={project.title}
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80';
                         }}
-                        className="px-2 py-0.5 text-[10px] font-mono rounded-md bg-[#0A1020] hover:bg-blue-600/20 text-slate-300 hover:text-cyan-300 border border-[#1E293B] hover:border-cyan-500/40 cursor-pointer transition-colors"
-                        title={`Click to read about ${tech}`}
-                      >
-                        {tech}
-                      </button>
-                    ))}
-                    {project.technologies.length > 4 && (
-                      <span className="px-1.5 py-0.5 text-[10px] font-mono text-slate-500">
-                        +{project.technologies.length - 4}
-                      </span>
-                    )}
-                  </div>
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                      <div className="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-[#05070D]/80 backdrop-blur-md border border-[#1E293B] text-[10px] font-mono text-cyan-400">
+                        {project.projectStatus}
+                      </div>
+                    </div>
 
-                  <div className="pt-4 border-t border-[#1E293B]/60 flex items-center justify-between">
-                    <button
-                      onClick={() => setActiveModalProject(project)}
-                      className="flex items-center gap-1.5 text-xs font-semibold text-cyan-400 hover:text-cyan-300 transition-colors"
-                    >
-                      <Eye className="w-3.5 h-3.5" />
-                      <span>View Details</span>
-                    </button>
+                    <div className="p-6 space-y-4 flex-1 flex flex-col justify-between">
+                      <div className="space-y-2">
+                        <span className="text-[10px] font-mono uppercase tracking-wider text-blue-400 font-bold">
+                          {project.category}
+                        </span>
+                        <h3 className="text-xl font-bold text-white group-hover:text-cyan-300 transition-colors">
+                          {project.title}
+                        </h3>
+                        <p className="text-slate-400 text-xs line-clamp-3 leading-relaxed">
+                          {project.shortDescription}
+                        </p>
+                      </div>
 
-                    <div className="flex items-center gap-3">
-                      {project.gitHubUrl && (
-                        <a
-                          href={project.gitHubUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-slate-400 hover:text-white transition-colors"
-                          title="GitHub Repository"
+                      <div className="flex flex-wrap gap-1.5 pt-2">
+                        {project.technologies.slice(0, 4).map((tech) => (
+                          <button
+                            type="button"
+                            key={tech}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setSelectedTech(getTechDetail(tech));
+                            }}
+                            className="px-2 py-0.5 text-[10px] font-mono rounded-md bg-[#0A1020] hover:bg-blue-600/20 text-slate-300 hover:text-cyan-300 border border-[#1E293B] hover:border-cyan-500/40 cursor-pointer transition-colors"
+                            title={`Click to read about ${tech}`}
+                          >
+                            {tech}
+                          </button>
+                        ))}
+                        {project.technologies.length > 4 && (
+                          <span className="px-1.5 py-0.5 text-[10px] font-mono text-slate-500">
+                            +{project.technologies.length - 4}
+                          </span>
+                        )}
+                      </div>
+
+                      <div className="pt-4 border-t border-[#1E293B]/60 flex items-center justify-between">
+                        <button
+                          onClick={() => setActiveModalProject(project)}
+                          className="flex items-center gap-1.5 text-xs font-semibold text-cyan-400 hover:text-cyan-300 transition-colors"
                         >
-                          <GithubIcon className="w-4 h-4" />
-                        </a>
-                      )}
-                      {project.liveDemoUrl && (
-                        <a
-                          href={project.liveDemoUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-slate-400 hover:text-cyan-400 transition-colors"
-                          title="Live Demo"
-                        >
-                          <ExternalLink className="w-4 h-4" />
-                        </a>
-                      )}
+                          <Eye className="w-3.5 h-3.5" />
+                          <span>View Details</span>
+                        </button>
+
+                        <div className="flex items-center gap-3">
+                          {project.gitHubUrl && (
+                            <a
+                              href={project.gitHubUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-slate-400 hover:text-white transition-colors"
+                              title="GitHub Repository"
+                            >
+                              <GithubIcon className="w-4 h-4" />
+                            </a>
+                          )}
+                          {project.liveDemoUrl && (
+                            <a
+                              href={project.liveDemoUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-slate-400 hover:text-cyan-400 transition-colors"
+                              title="Live Demo"
+                            >
+                              <ExternalLink className="w-4 h-4" />
+                            </a>
+                          )}
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
+                </SpotlightCard>
               </motion.div>
             ))}
           </div>
