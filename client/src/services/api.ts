@@ -34,7 +34,7 @@ export const fallbackProfile: Profile = {
   gitHubUrl: 'https://github.com/nambukamali-tech',
   availabilityStatus: 'Open to opportunities',
   yearsExperience: 1,
-  projectsCompleted: 6,
+  projectsCompleted: 7,
 };
 
 export const portfolioApi = {
@@ -87,8 +87,8 @@ export const portfolioApi = {
           location: 'Coimbatore, India',
           startDate: '2026-03-01',
           isCurrent: true,
-          description: 'Promoted from Backend Developer Intern (Dec 2025 - Feb 2026) to Junior Software Developer. Currently developing backend APIs and managing the database for Ackcio, a real-time IoT-based monitoring system. Building and maintaining RESTful APIs using ASP.NET Core MVC and C# to handle real-time data ingestion from IoT devices. Designing and optimizing MySQL database schema using EF Core Code-First Migrations.',
-          technologies: ['C#', 'ASP.NET Core', 'EF Core', 'MySQL', 'RabbitMQ', 'Microservices', 'Git'],
+          description: 'Promoted from Backend Developer Intern (Dec 2025 - Feb 2026) to Junior Software Developer. Developing backend APIs and managing databases for Ackcio (real-time IoT monitoring system) and FFM (Field Force & Workforce Management platform). Building RESTful APIs using ASP.NET Core, MediatR (CQRS), and C# to handle real-time data ingestion and workforce attendance calculation logic. Designing and optimizing MySQL database schemas using EF Core Code-First Migrations, implementing RBAC security, and delivering clean, decoupled microservices.',
+          technologies: ['C#', 'ASP.NET Core', 'EF Core', 'MySQL', 'MediatR', 'CQRS', 'RabbitMQ', 'Microservices', 'Git'],
           displayOrder: 1,
         },
         {
@@ -118,6 +118,26 @@ export const portfolioApi = {
       const sampleProjects: Project[] = [
         {
           id: '1',
+          title: 'FFM - Field Force Management System',
+          slug: 'ffm-field-force-management-system',
+          shortDescription: 'Enterprise field workforce management platform featuring real-time cumulative attendance tracking, break intervals, and manager regularizations.',
+          fullDescription: 'Architected and engineered enterprise workforce backend REST APIs in ASP.NET Core using Clean Architecture and MediatR (CQRS). Developed cumulative attendance tracking supporting multi-session check-ins/outs per day, dynamic break duration accounting, geofencing coordinates, and audit-compliant manager correction workflows.',
+          thumbnailUrl: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80',
+          category: 'Backend',
+          technologies: ['C#', 'ASP.NET Core Web API', 'MediatR', 'CQRS', 'EF Core', 'MySQL', 'FluentValidation', 'Clean Architecture'],
+          gitHubUrl: 'https://github.com/nambukamali-tech',
+          liveDemoUrl: 'https://github.com/nambukamali-tech',
+          projectStatus: 'In Progress',
+          isFeatured: true,
+          isPublished: true,
+          displayOrder: 1,
+          problemStatement: 'Field organizations require continuous tracking of mobile employees across multiple client locations, needing flexible cumulative work hours, split shift calculations, and robust manager regularization audits.',
+          solutionOverview: 'Implemented CQRS command and query handlers via MediatR with ASP.NET Core, modeling attendance as parent-child sessions with automated break deductions and audit logging.',
+          architectureNotes: 'Clean Architecture with MediatR CQRS pattern, FluentValidation pipeline behaviors, EF Core relational data models, and strict RBAC authorization policies.',
+          createdAt: new Date().toISOString()
+        },
+        {
+          id: '2',
           title: 'Ackcio - IoT Monitoring System',
           slug: 'ackcio-iot-monitoring-system',
           shortDescription: 'Real-time IoT-based structural and asset monitoring platform handling continuous sensor data streams.',
@@ -130,14 +150,14 @@ export const portfolioApi = {
           projectStatus: 'In Progress',
           isFeatured: true,
           isPublished: true,
-          displayOrder: 1,
+          displayOrder: 2,
           problemStatement: 'Handling high-volume continuous time-series data streams from IoT structural sensors requires low latency and asynchronous message processing.',
           solutionOverview: 'Implemented ASP.NET Core REST APIs with RabbitMQ message queues for asynchronous ingestion and optimized MySQL schema using EF Core Code-First migrations.',
           architectureNotes: 'Microservices architecture utilizing RabbitMQ for decoupled message processing, RBAC for secure API endpoints, and clean code principles.',
           createdAt: new Date().toISOString()
         },
         {
-          id: '2',
+          id: '3',
           title: 'Student Portal Web Application',
           slug: 'student-portal-web-app',
           shortDescription: 'Full-stack web application following Clean Architecture for managing student profiles, scholarships, papers, and attendance.',
@@ -150,14 +170,14 @@ export const portfolioApi = {
           projectStatus: 'Completed',
           isFeatured: true,
           isPublished: true,
-          displayOrder: 2,
+          displayOrder: 3,
           problemStatement: 'Educational institutions required a unified portal to manage multi-role administrative data with strict access control.',
           solutionOverview: 'Developed role-based authentication (Admin & Staff) with clean layer separation, dependency injection, and EF Core Code-First migrations.',
           architectureNotes: 'Clean Architecture in ASP.NET Core MVC with custom middleware for request processing and dependency injection.',
           createdAt: new Date().toISOString()
         },
         {
-          id: '3',
+          id: '4',
           title: 'Online Ticket Booking Web Application',
           slug: 'online-ticket-booking-app',
           shortDescription: 'Full-stack ticket booking platform built with React.js frontend and ASP.NET Core MVC backend.',
@@ -170,14 +190,14 @@ export const portfolioApi = {
           projectStatus: 'Completed',
           isFeatured: true,
           isPublished: true,
-          displayOrder: 3,
+          displayOrder: 4,
           problemStatement: 'Users needed a responsive interface to check ticket availability and complete bookings while administrators needed a live dashboard.',
           solutionOverview: 'Decoupled React.js frontend communicating with ASP.NET Core backend REST endpoints, featuring live seat availability updates and RBAC security.',
           architectureNotes: 'Client-server architecture separating React SPA state management from ASP.NET Core business logic and SQL Server persistence.',
           createdAt: new Date().toISOString()
         },
         {
-          id: '4',
+          id: '5',
           title: 'Rural Guider - College & Career Guidance Web App',
           slug: 'rural-guider-career-app',
           shortDescription: 'Career guidance platform helping rural students discover colleges and career opportunities.',
@@ -190,7 +210,7 @@ export const portfolioApi = {
           projectStatus: 'Completed',
           isFeatured: true,
           isPublished: true,
-          displayOrder: 4,
+          displayOrder: 5,
           problemStatement: 'Rural students lacked structured digital guidance for exploring higher education colleges and career pathways.',
           solutionOverview: 'Designed an intuitive, accessible Bootstrap interface tailored for low-bandwidth users, backed by ASP.NET Core MVC and MySQL.',
           architectureNotes: 'Multi-role RBAC architecture (Admin, Student, College) with EF Core Code-First migrations and optimized database queries.',
