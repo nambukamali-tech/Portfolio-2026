@@ -22,7 +22,7 @@ export const Contact: React.FC<ContactProps> = ({ profile }) => {
 
   const maxMessageLength = 1000;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus(null);
 
@@ -38,28 +38,52 @@ export const Contact: React.FC<ContactProps> = ({ profile }) => {
 
     setLoading(true);
 
-    const emailSubject = `[Portfolio Inquiry] ${formData.subject}`;
-    const emailBody = `Sender Name: ${formData.fullName}\nSender Email: ${formData.email}\nSubject: ${formData.subject}\n\nMessage:\n${formData.message}`;
-    const mailtoUrl = `mailto:nambukamali@gmail.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
-
-    // 1. Try background fetch to API if available
     try {
+      const recipientEmail = profile.email || 'nambukamali@gmail.com';
+
+      // 1. Send automated direct email to your Gmail inbox via FormSubmit AJAX
+      await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(recipientEmail)}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.fullName.trim(),
+          email: formData.email.trim(),
+          _subject: `[Portfolio Inquiry] ${formData.subject.trim()} - from ${formData.fullName.trim()}`,
+          message: formData.message.trim(),
+          _template: 'table',
+          _captcha: 'false',
+        }),
+      });
+
+      // 2. Also save to internal database for Admin Dashboard
       portfolioApi.submitContact(formData).catch(() => {});
-    } catch {}
 
-    // 2. Open native mail client pre-filled to nambukamali@gmail.com
-    try {
-      window.location.href = mailtoUrl;
-    } catch {}
+      setStatus({
+        type: 'success',
+        message: 'Thank you! Your message has been sent directly to Nambu Kamali at nambukamali@gmail.com.',
+      });
 
-    // 3. Guaranteed success status and form reset
-    setStatus({
-      type: 'success',
-      message: 'Thank you! Your message has been prepared for nambukamali@gmail.com.'
-    });
+      setFormData({ fullName: '', email: '', subject: '', message: '' });
+    } catch {
+      // Graceful fallback: launch pre-filled mail client if network is restricted
+      const emailSubject = `[Portfolio Inquiry] ${formData.subject}`;
+      const emailBody = `Sender Name: ${formData.fullName}\nSender Email: ${formData.email}\nSubject: ${formData.subject}\n\nMessage:\n${formData.message}`;
+      const fallbackUrl = `mailto:${profile.email || 'nambukamali@gmail.com'}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+      
+      try {
+        window.location.href = fallbackUrl;
+      } catch {}
 
-    setFormData({ fullName: '', email: '', subject: '', message: '' });
-    setLoading(false);
+      setStatus({
+        type: 'success',
+        message: 'Your email draft has been prepared to send to nambukamali@gmail.com.',
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const copyEmailToClipboard = () => {
