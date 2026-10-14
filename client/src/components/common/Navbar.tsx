@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Download, ShieldCheck } from 'lucide-react';
+import { Menu, X, Download, ShieldCheck, Zap } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
 
 interface NavbarProps {
   resumeUrl?: string;
+  onOpenRecruiterModal?: () => void;
 }
 
 const navItems = [
   { label: 'Home', href: '#home' },
   { label: 'About', href: '#about' },
   { label: 'Skills', href: '#skills' },
+  { label: 'Architecture', href: '#architecture' },
   { label: 'Experience', href: '#experience' },
   { label: 'Projects', href: '#projects' },
   { label: 'Certifications', href: '#certifications' },
@@ -18,7 +20,7 @@ const navItems = [
   { label: 'Contact', href: '#contact' },
 ];
 
-export const Navbar: React.FC<NavbarProps> = ({ resumeUrl = '/resume.pdf' }) => {
+export const Navbar: React.FC<NavbarProps> = ({ resumeUrl = '/resume.pdf', onOpenRecruiterModal }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [activeSection, setActiveSection] = useState('home');
@@ -125,13 +127,24 @@ export const Navbar: React.FC<NavbarProps> = ({ resumeUrl = '/resume.pdf' }) => 
             })}
           </nav>
 
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden md:flex items-center gap-2.5">
+            {onOpenRecruiterModal && (
+              <button
+                onClick={onOpenRecruiterModal}
+                className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-amber-300 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 rounded-xl transition-all shadow-md shadow-amber-500/10 hover:scale-[1.02] active:scale-[0.98]"
+                title="60-Second Executive Summary for Recruiters & Hiring Managers"
+              >
+                <Zap className="w-3.5 h-3.5 text-amber-400 fill-amber-400 animate-pulse" />
+                <span>Recruiter View</span>
+              </button>
+            )}
+
             <a
               href={resumeUrl}
               download="Nambu_Kamali_Resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 px-4 py-2 text-xs font-semibold text-white bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-cyan-500 rounded-xl shadow-md shadow-blue-600/20 hover:shadow-blue-500/40 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
+              className="flex items-center gap-2 px-3.5 py-1.5 text-xs font-semibold text-white bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-cyan-500 rounded-xl shadow-md shadow-blue-600/20 hover:shadow-blue-500/40 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
             >
               <Download className="w-3.5 h-3.5" />
               <span>Resume</span>
@@ -139,7 +152,7 @@ export const Navbar: React.FC<NavbarProps> = ({ resumeUrl = '/resume.pdf' }) => 
 
             <a
               href="/admin/login"
-              className="p-2 text-slate-400 hover:text-cyan-400 hover:bg-[#0E172B] rounded-xl border border-transparent hover:border-[#1E293B] transition-all"
+              className="p-1.5 text-slate-400 hover:text-cyan-400 hover:bg-[#0E172B] rounded-xl border border-transparent hover:border-[#1E293B] transition-all"
               title="Admin Dashboard Portal"
             >
               <ShieldCheck className="w-4 h-4" />
@@ -166,6 +179,19 @@ export const Navbar: React.FC<NavbarProps> = ({ resumeUrl = '/resume.pdf' }) => 
             className="fixed inset-x-0 top-[65px] z-30 bg-[#0A1020]/95 backdrop-blur-xl border-b border-[#1E293B] p-6 lg:hidden shadow-2xl"
           >
             <div className="flex flex-col gap-3">
+              {onOpenRecruiterModal && (
+                <button
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    onOpenRecruiterModal();
+                  }}
+                  className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-amber-500/15 border border-amber-500/30 text-amber-300 font-bold text-xs"
+                >
+                  <Zap className="w-4 h-4 text-amber-400 fill-amber-400" />
+                  <span>⚡ 60-Second Recruiter Briefing</span>
+                </button>
+              )}
+
               {navItems.map((item) => (
                 <a
                   key={item.label}

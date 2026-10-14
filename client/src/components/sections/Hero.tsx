@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Download, Mail, Terminal, Database, Code2, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, Download, Mail, Terminal, Database, Code2, CheckCircle2, Zap } from 'lucide-react';
 import type { Profile } from '../../types/portfolio';
 
 interface HeroProps {
   profile: Profile;
+  onOpenRecruiterModal?: () => void;
 }
 
 const roles = ['.NET Developer', 'React Developer', 'Full-Stack Developer', 'Software Engineer'];
 
-export const Hero: React.FC<HeroProps> = ({ profile }) => {
+export const Hero: React.FC<HeroProps> = ({ profile, onOpenRecruiterModal }) => {
   const [roleIndex, setRoleIndex] = useState(0);
 
   useEffect(() => {
@@ -64,7 +65,17 @@ export const Hero: React.FC<HeroProps> = ({ profile }) => {
             {profile.summary}
           </p>
 
-          <div className="flex flex-wrap items-center gap-4 pt-4">
+          <div className="flex flex-wrap items-center gap-3.5 pt-4">
+            {onOpenRecruiterModal && (
+              <button
+                onClick={onOpenRecruiterModal}
+                className="flex items-center gap-2 px-5 py-3.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold rounded-xl shadow-lg shadow-amber-500/25 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
+              >
+                <Zap className="w-4 h-4 fill-slate-950" />
+                <span>60s Recruiter Briefing</span>
+              </button>
+            )}
+
             <a
               href="#projects"
               className="flex items-center gap-2 px-6 py-3.5 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-semibold rounded-xl shadow-lg shadow-blue-600/25 hover:shadow-blue-500/40 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
@@ -76,15 +87,15 @@ export const Hero: React.FC<HeroProps> = ({ profile }) => {
             <a
               href={profile.resumeUrl || '/resume.pdf'}
               download="Nambu_Kamali_Resume.pdf"
-              className="flex items-center gap-2 px-6 py-3.5 bg-[#0E172B] hover:bg-[#1A2642] text-slate-200 hover:text-white font-semibold border border-[#1E293B] hover:border-blue-500/50 rounded-xl transition-all duration-300"
+              className="flex items-center gap-2 px-5 py-3.5 bg-[#0E172B] hover:bg-[#1A2642] text-slate-200 hover:text-white font-semibold border border-[#1E293B] hover:border-blue-500/50 rounded-xl transition-all duration-300"
             >
               <Download className="w-4 h-4 text-cyan-400" />
-              <span>Download Resume</span>
+              <span>Resume</span>
             </a>
 
             <a
               href="#contact"
-              className="flex items-center gap-2 px-5 py-3.5 text-slate-400 hover:text-cyan-400 text-sm font-medium transition-colors"
+              className="flex items-center gap-2 px-4 py-3.5 text-slate-400 hover:text-cyan-400 text-sm font-medium transition-colors"
             >
               <Mail className="w-4 h-4" />
               <span>Let's Connect</span>

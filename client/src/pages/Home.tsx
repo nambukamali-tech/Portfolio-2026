@@ -3,9 +3,11 @@ import { Navbar } from '../components/common/Navbar';
 import { Footer } from '../components/common/Footer';
 import { CustomCursor } from '../components/common/CustomCursor';
 import { BackToTop } from '../components/common/BackToTop';
+import { RecruiterModal } from '../components/common/RecruiterModal';
 import { Hero } from '../components/sections/Hero';
 import { About } from '../components/sections/About';
 import { Skills } from '../components/sections/Skills';
+import { EngineeringLab } from '../components/sections/EngineeringLab';
 import { Experience } from '../components/sections/Experience';
 import { Projects } from '../components/sections/Projects';
 import { CertificationsEducation } from '../components/sections/CertificationsEducation';
@@ -22,6 +24,7 @@ export const Home: React.FC = () => {
   const [certifications, setCertifications] = useState<Certification[]>([]);
   const [education, setEducation] = useState<EducationType[]>([]);
   const [services, setServices] = useState<ServiceItem[]>([]);
+  const [isRecruiterModalOpen, setIsRecruiterModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -54,12 +57,19 @@ export const Home: React.FC = () => {
   return (
     <div className="min-h-screen bg-[#05070D] text-slate-100 selection:bg-blue-600 selection:text-white relative">
       <CustomCursor />
-      <Navbar resumeUrl={profile.resumeUrl} />
+      <Navbar
+        resumeUrl={profile.resumeUrl}
+        onOpenRecruiterModal={() => setIsRecruiterModalOpen(true)}
+      />
       
       <main>
-        <Hero profile={profile} />
+        <Hero
+          profile={profile}
+          onOpenRecruiterModal={() => setIsRecruiterModalOpen(true)}
+        />
         <About profile={profile} />
         <Skills skills={skills} />
+        <EngineeringLab />
         <Experience experiences={experiences} />
         <Projects projects={projects} />
         <CertificationsEducation certifications={certifications} education={education} />
@@ -69,6 +79,12 @@ export const Home: React.FC = () => {
 
       <Footer profile={profile} />
       <BackToTop />
+
+      <RecruiterModal
+        isOpen={isRecruiterModalOpen}
+        onClose={() => setIsRecruiterModalOpen(false)}
+        profile={profile}
+      />
     </div>
   );
 };
