@@ -281,6 +281,28 @@ namespace Portfolio.Infrastructure.Persistence
                     CertificateUrl = "/certificates/csharp-cert.pdf",
                     Description = "Ranked 5th across the entire university in Bachelor of Science in Computer Science (CGPA: 8.7).",
                     DisplayOrder = 4
+                },
+                new Certification
+                {
+                    Name = "Typewriting English (Junior & Senior Grade) - First Class",
+                    Issuer = "Department of Technical Education (DoTE), Tamil Nadu",
+                    IssueDate = new DateTime(2023, 8, 1),
+                    CredentialId = "DOTE-ENG-TYPE-SR",
+                    VerificationUrl = "https://github.com/nambukamali-tech",
+                    CertificateUrl = "/certificates/csharp-cert.pdf",
+                    Description = "Certified in English Typewriting at both Junior and Senior grade levels with First Class honors, proving high-speed keyboard precision and documentation mastery.",
+                    DisplayOrder = 5
+                },
+                new Certification
+                {
+                    Name = "Typewriting Tamil (Junior Grade) - First Class with Distinction",
+                    Issuer = "Department of Technical Education (DoTE), Tamil Nadu",
+                    IssueDate = new DateTime(2023, 8, 1),
+                    CredentialId = "DOTE-TAM-TYPE-JR",
+                    VerificationUrl = "https://github.com/nambukamali-tech",
+                    CertificateUrl = "/certificates/csharp-cert.pdf",
+                    Description = "Achieved First Class with Distinction in Tamil Typewriting (Junior Grade), demonstrating bilingual typing proficiency and exceptional transcription accuracy.",
+                    DisplayOrder = 6
                 }
             };
             context.Certifications.AddRange(certs);

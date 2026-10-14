@@ -277,6 +277,28 @@ export const portfolioApi = {
           certificateUrl: '/certificates/csharp-cert.pdf',
           description: 'Ranked 5th across the entire university in Bachelor of Science in Computer Science (CGPA: 8.7).',
           displayOrder: 4
+        },
+        {
+          id: '5',
+          name: 'Typewriting English (Junior & Senior Grade) - First Class',
+          issuer: 'Department of Technical Education (DoTE), Tamil Nadu',
+          issueDate: '2023-08-01',
+          credentialId: 'DOTE-ENG-TYPE-SR',
+          verificationUrl: 'https://github.com/nambukamali-tech',
+          certificateUrl: '/certificates/csharp-cert.pdf',
+          description: 'Certified in English Typewriting at both Junior and Senior grade levels with First Class honors, proving high-speed keyboard precision and documentation mastery.',
+          displayOrder: 5
+        },
+        {
+          id: '6',
+          name: 'Typewriting Tamil (Junior Grade) - First Class with Distinction',
+          issuer: 'Department of Technical Education (DoTE), Tamil Nadu',
+          issueDate: '2023-08-01',
+          credentialId: 'DOTE-TAM-TYPE-JR',
+          verificationUrl: 'https://github.com/nambukamali-tech',
+          certificateUrl: '/certificates/csharp-cert.pdf',
+          description: 'Achieved First Class with Distinction in Tamil Typewriting (Junior Grade), demonstrating bilingual typing proficiency and exceptional transcription accuracy.',
+          displayOrder: 6
         }
       ];
     }
